@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>profile</h1>
+    <b-avatar text="UN" size="4rem"></b-avatar>
     <LikeList/>
     <ReviewList/>
   </div>

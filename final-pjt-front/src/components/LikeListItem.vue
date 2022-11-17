@@ -1,6 +1,8 @@
 <template>
   <div>
     <h3>LikeListItem</h3>
+    <div>
+    </div>
   </div>
 </template>
 
