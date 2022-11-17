@@ -1,13 +1,25 @@
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+
 from django.shortcuts import render
-from .models import Movie
 from django.http import JsonResponse
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import SearchMovieSerializer
+from .models import Movie
 
 
 # Create your views here.
-def get_movieList_popular(request, language, page, region):
-    return
+@api_view(['GET', 'POST'])
+def get_movieList_popular(request): # main 페이지
+    if request.method == 'GET':
+        movies = get_list_or_404(Movie)
+        serializer = SearchMovieSerializer(movies, many=True)
+        return Response(serializer.data)
 
 
 def get_movieList_toprated(request, language, page, region):
@@ -32,8 +44,16 @@ def search_count_movie(request): #filter_list): # POST 요청 => count
                 q.add(Q(title__contains=val), q.AND)
             else:
                 q.add(~Q(title__contains=val), q.AND)
+        elif field_name == 'adult':
+            if isContain:
+                q.add(Q(adult=val), q.AND)
+            else:
+                q.add(~Q(adult=val), q.AND)
         elif field_name == 'genre_ids':
-            q.add(Q(genre_ids=val), q.AND)
+            if isContain:
+                q.add(Q(genre_ids=val), q.AND)
+            else:
+                q.add(~Q(genre_ids=val), q.AND)
     result = Movie.objects.filter(q)
     serializer = SearchMovieSerializer(result, many=True)
     
@@ -55,3 +75,8 @@ def search_count_movie(request): #filter_list): # POST 요청 => count
     search_value : Integer or Boolean or list
 
     '''
+
+
+
+
+# review 관련 view
