@@ -215,4 +215,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 # ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
-# ACCOUNT_USERNAME_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = True   
