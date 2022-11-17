@@ -4,7 +4,7 @@ from . import views
 app_name = 'movies'
 urlpatterns = [
     path('popular/', views.get_movieList_popular, name="popular"),
-    path('search/', views.get_movie_latest, name="search"),
+    path('search/', views.search_count_movie, name="search"),
 ]
 
 
