@@ -3,7 +3,8 @@
     <nav>
       <router-link to="/">메인페이지</router-link> |
       <router-link to="/detail">상세페이지</router-link> |
-      <router-link to="/choice">선택페이지</router-link>
+      <router-link to="/choice">선택페이지</router-link> |
+      <router-link to="/profile">프로필</router-link>
     </nav>
     <router-view/>
   </div>
