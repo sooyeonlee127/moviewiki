@@ -23,12 +23,15 @@ def get_movie_latest(request, language):
 
 
 def search_count_movie(request): #filter_list): # POST 요청 => count
-    filter_list = [['title', '블랙 팬서'], ['genre_ids',[12, 18]]]
+    filter_list = [['title', '블랙 팬서', False], ['title', '아바타', False]]
     q = Q()
     for filt in filter_list:
-        field_name = filt[0]
+        field_name, val, isContain = filt
         if field_name == 'title':
-            q.add(Q(title__contains=val), q.AND)
+            if isContain:
+                q.add(Q(title__contains=val), q.AND)
+            else:
+                q.add(~Q(title__contains=val), q.AND)
         elif field_name == 'genre_ids':
             q.add(Q(genre_ids=val), q.AND)
     result = Movie.objects.filter(q)
