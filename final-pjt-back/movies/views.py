@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import SearchMovieSerializer
+from .serializers import SearchMovieSerializer, CommentSerializer
 from .models import Movie
 
 
@@ -89,10 +89,11 @@ def search_count_movie(request): #filter_list): # POST 요청 => count
 
 
 # review 관련 view
-# def comment_create(request, movie_pk):
-#     movie = get_object_or_404(Movie, pk=movie_pk)
-#     serializer = CommentSerializer(data=request.data)
-#     if serializer.is_valid(raise_exception=True):
-#         serializer.save(comment=comment)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+@api_view(['POST'])
+def comment_create(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 

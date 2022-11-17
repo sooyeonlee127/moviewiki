@@ -23,7 +23,7 @@ class Movie(models.Model):
     video = models.BooleanField(max_length=100)
     vote_average = models.FloatField()
     vote_count = models.IntegerField()
-
+    
     # like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_movies")
 
 

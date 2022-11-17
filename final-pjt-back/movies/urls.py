@@ -5,7 +5,8 @@ app_name = 'movies'
 urlpatterns = [
     path('popular/', views.get_movieList_popular, name="popular"),
     path('search/', views.search_count_movie, name="search"),
-    path('popular/<int:movie_id>/detail/', views.get_movieList_popular_detail),
+    path('popular/<int:movie_id>/', views.get_movieList_popular_detail),
+    path('popular/<int:movie_id>/comments/', views.comment_create),
 ]
 
 

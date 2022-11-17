@@ -12,7 +12,6 @@
         img-height="200"
       >
         <b-card-text class="text-xl-center">
-          영화 제목
         </b-card-text>
       </b-card>
     </b-card-group>
