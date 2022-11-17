@@ -1,7 +1,8 @@
 <template>
   <div>
     <h3>Review List</h3>
-    <ReviewListItem/>
+    <ReviewListItem
+      />
   </div>
 </template>
 
@@ -11,7 +12,8 @@ export default {
   name: 'ReviewList',
   components: {
     ReviewListItem,
-  }
+  },
+
 }
 </script>
 

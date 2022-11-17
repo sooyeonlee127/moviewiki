@@ -57,6 +57,11 @@
         sliding: null
       }
     },
+    computed: {
+      movies() {
+        return this.$store.state.movies
+      }
+    },
     methods: {
       onSlideStart(slide) {
         this.sliding = true

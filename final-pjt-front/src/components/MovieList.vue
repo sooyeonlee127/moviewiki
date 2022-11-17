@@ -1,8 +1,13 @@
 <template>
   <div>
-    <h3>MovieList</h3>
-    <MovieListItem/>
-    <movies/>
+    <b-card-group deck>
+      <MovieListItem
+        v-for="movie in movies"
+        :key="movie.id"
+        :movie="movie"
+        />
+    </b-card-group>
+
   </div>
 </template>
 
@@ -16,7 +21,6 @@ export default {
   },
   computed: {
     movies() {
-      console.log(this.$store.state.movies)
       return this.$store.state.movies
     }
   }

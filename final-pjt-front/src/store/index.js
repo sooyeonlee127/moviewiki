@@ -9,6 +9,7 @@ const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default new Vuex.Store({
   state: {
+    review: [],
     movies: [],
     filter_list: [],
     questions: [ // index - 1: 질문, 2: 대답, 3: key, 4: value, 5: 소거(0) / 포함(1)
@@ -23,6 +24,9 @@ export default new Vuex.Store({
   mutations: {
     GET_MOVIES(state, movies) {
       state.movies = movies
+    },
+    GET_REVIEWS(state, review) {
+      state.review = review
     }
   },
   actions: {
@@ -35,9 +39,7 @@ export default new Vuex.Store({
         .then((res) => {
           context.commit('GET_MOVIES', res.data)
         })
-    }
-
-
+    },
   },
   modules: {
   }

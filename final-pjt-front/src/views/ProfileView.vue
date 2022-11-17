@@ -16,7 +16,16 @@ export default {
   components: {
     LikeList,
     ReviewList
+  },
+  created() {
+    this.getReviews()
+  },
+  methods: {
+    getReviews() {
+      this.$store.dispatch('getReviews')
+    }
   }
+
 }
 </script>
 

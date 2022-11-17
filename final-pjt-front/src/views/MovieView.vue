@@ -17,6 +17,14 @@ export default {
     MovieList,
     ActorList,
     MoviePoster
+  },
+  created() {
+    this.getMovies()
+  },
+  methods: {
+    getMovies() {
+      this.$store.dispatch('getMovies')
+    }
   }
 }
 </script>

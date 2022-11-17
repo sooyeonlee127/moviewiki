@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'ReviewListItem'
+  name: 'ReviewListItem',
 }
 </script>
 
