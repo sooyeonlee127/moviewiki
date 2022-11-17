@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">메인페이지</router-link> |
-      <router-link to="/detail">상세페이지</router-link> |
-      <router-link to="/choice">선택페이지</router-link> |
-      <router-link to="/profile">프로필</router-link>
-    </nav>
+    <b-navbar-nav>
+      <b-nav>
+        <b-nav-item to="/" active>홈</b-nav-item>
+        <b-nav-item to="/choice" active>스무고개</b-nav-item>
+        <b-nav-item to="/profile" active>내 프로필</b-nav-item>
+      </b-nav>
+    </b-navbar-nav>
     <router-view/>
   </div>
 </template>
