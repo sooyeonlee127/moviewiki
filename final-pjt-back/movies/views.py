@@ -21,6 +21,15 @@ def get_movieList_popular(request): # main 페이지
         serializer = SearchMovieSerializer(movies, many=True)
         return Response(serializer.data)
 
+@api_view(['GET'])
+def get_movieList_popular_detail(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    if request.method == 'GET':
+        serializer = SearchMovieSerializer(movie)
+        return Response(serializer.data)
+
+
+
 
 def get_movieList_toprated(request, language, page, region):
     return
@@ -80,3 +89,10 @@ def search_count_movie(request): #filter_list): # POST 요청 => count
 
 
 # review 관련 view
+# def comment_create(request, movie_pk):
+#     movie = get_object_or_404(Movie, pk=movie_pk)
+#     serializer = CommentSerializer(data=request.data)
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save(comment=comment)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
