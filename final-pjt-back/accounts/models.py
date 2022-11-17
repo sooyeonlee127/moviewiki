@@ -3,7 +3,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, nickname, profile_image, password=None):
+    def create_user(self, email, profile_image, nickname, password=None):
         print("userManager1")
         if email is None:
             raise ValueError('Users must have a email')
@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
         print("userManager3")
         return user
 
-    def create_superuser(self, email, nickname, profile_image, password=None):
+    def create_superuser(self, email, profile_image, nickname, password=None):
         print("createSuperuser-- 1111")
         user = self.create_user(
             email,
@@ -40,7 +40,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    # username = None
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
@@ -54,26 +53,10 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['profile_image']
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email
-
-    def has_perm(self, perm, obj=None):
-        # "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, app_label):
-        # "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    @property
-    def is_staff(self):
-        # "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
-        return self.is_admin
 
 
 
@@ -91,7 +74,7 @@ from django.conf import settings
 
 class UserManager(BaseUserManager):
     #  Django 의 Custom User 의 Field 저장을 위해서는 UserManager 재정의가 필수이다.
-    def create_user(self, username, email, password=None):
+    def create_user(self, `username`, email, password=None):
         """Create and return a `User` with an email, username and password."""
         if username is None:
             raise TypeError('Users must have a username.')

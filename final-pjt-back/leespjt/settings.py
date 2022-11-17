@@ -36,19 +36,24 @@ INSTALLED_APPS = [
     'movies',
     'recommends',
     
-
+    # REST API용 
     'rest_framework',
 
     # CORS policy
     "corsheaders",
 
     # Auth
-    'rest_framework.authtoken',
-    'dj_rest_auth',
+    'dj_rest_auth', # 회원가입, 인증, 비번 재설정, 사용자 정보, 회원정보 수정 등을 위한 REST API end point 제공
+    # django-rest-auth는 더이상 업데이트 되지 않으므로, dj-rest-auth 사용을 권장
+    # 충격! django-rest-auth는 회원가입 기능 없음 => dj-rest-auth 사용
+    # dj-rest-auth는 소셜회원가입 기능 제공.
+    # dj-rest-auth의 회원가입(Registration) 기능을 사용하기 위해선 'django-allauth'가 필요
+    
+    'rest_framework.authtoken', # TokenAuthentication 사용을 위한 등록
 
     # registration
     'django.contrib.sites',
-    'allauth',
+    'allauth', # rest api 회원가입용
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
@@ -63,10 +68,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-SITE_ID = 1
+SITE_ID = 1 
+# Django는 하나의 데이터베이스 컨텐츠를 여러개의 도메인에 게시 가능
+# 도메인을 구분하기 위해 SITE_ID가 필요
+# 현재 프로젝트가 첫번째 사이트임을 나타냄
+
 
 REST_FRAMEWORK = {
     # Authentication
+    # TokenAuthentication을 사용하려면 DEFAULT AUTHENTICATION CLASSES을 정의해야 함
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
@@ -78,16 +88,16 @@ REST_FRAMEWORK = {
     ],
 
     # spectacular Settings
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
-}
+# SPECTACULAR_SETTINGS = {
+#     'TITLE': 'Your Project API',
+#     'DESCRIPTION': 'Your project description',
+#     'VERSION': '1.0.0',
+#     'SERVE_INCLUDE_SCHEMA': False,
+#     # OTHER SETTINGS
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -191,21 +201,18 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_USERNAME_REQUIRED = False
-
 # ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
-ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+# ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+# ACCOUNT_USERNAME_REQUIRED = True
