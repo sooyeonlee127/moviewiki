@@ -2,7 +2,7 @@
   <div>
     <b-card
       overlay
-      :img-src="`https://image.tmdb.org/t/p/original/${ actor.profile_path }`"        
+      :img-src="`https://image.tmdb.org/t/p/original/${ trend.poster_path }`"        
       img-alt="Card Image"
       text-variant="white"
       style="max-width: 10rem;"
@@ -13,11 +13,10 @@
 
 <script>
 export default {
-  name: 'ActorListItem',
+  name: 'TrendingListItem',
   props: {
-    actor: Object,
+    trend: Object,
   }
-
 }
 </script>
 

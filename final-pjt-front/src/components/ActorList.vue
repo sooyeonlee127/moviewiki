@@ -1,14 +1,18 @@
 <template>
-  <div>
-    <h3>ActorList</h3>
-    <div>
-      <ActorListItem
-        v-for="actor in actors"
-        :key="actor.id"
-        :actor="actor"
-      />
-    </div>
+<div>
+  <div class="row row-horizon">
+  <h3>movie</h3>
+  <b-card-group>
+    <ActorListItem
+      v-for="actor in actors"
+      :key="actor.id"
+      :actor="actor"
+
+    />
+  </b-card-group>
   </div>
+
+</div>
 </template>
 
 <script>

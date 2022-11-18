@@ -1,5 +1,6 @@
 <template>
   <div class="row row-horizon">
+    <h3>movie</h3>
     <b-card-group>
       <MovieListItem
         v-for="movie in movies"
