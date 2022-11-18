@@ -29,12 +29,12 @@ export default new Vuex.Store({
     GET_REVIEWS(state, review) {
       state.review = review
     },
-    // SELECTED_MOVIE(state, movie) {
-    //   state.movie = movie
-    // },
-    // SAVE_TOKEN(state, token) {
-    //   state.token = token
-    // }
+    SELECTED_MOVIE(state, movie) {
+      state.movie = movie
+    },
+    SAVE_TOKEN(state, token) {
+      state.token = token
+    }
   },
   actions: {
     // axios를 사용하여 데이터 가져오기
@@ -50,28 +50,29 @@ export default new Vuex.Store({
     // SelectedMovie(context, movie) {
     //   context.commit('SELECTED_MOVIE', movie)
     // }
-    // signUp(context, payload) {
-    //   axios({
-    //     method: 'post',
-    //     url: `${API_URL}/accounts/signup/`,
-    //     data: {
-    //       email: payload.email,
-    //       profile_image: payload.profile_image,
-    //       nickname: payload.nickname,
-    //       password1: payload.password1,
-    //       password2: payload.password2
-    //     }
-    //   })
-    //     .then((res) => {
-    //       console.log(res)
-    //       console.log('성공!')
-    //       context.commit('SAVE_TOKEN', res.data.key)
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //       console.log('실패')
-    //     })
-    // }
+    signUp(context, payload) {
+      console.log("dhzlsss")
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/signup/`,
+        data: {
+          email: payload.email,
+          // profile_image: payload.profile_image,
+          nickname: payload.nickname,
+          password1: payload.password1,
+          password2: payload.password2
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          console.log('성공!')
+          context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .catch((err) => {
+          console.log(err)
+          console.log('실패')
+        })
+    }
   },
   modules: {
   }

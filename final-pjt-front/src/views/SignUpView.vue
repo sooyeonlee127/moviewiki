@@ -5,8 +5,8 @@
       <label for="email">email : </label>
       <input type="text" id="email" v-model="email"><br>
 
-      <label for="profile_image"> profile_image : </label>
-      <input type="text" id="profile_image" v-model="profile_image"><br>
+      <!-- <label for="profile_image"> profile_image : </label>
+      <input type="file" id="profile_image" @change="{}"><br> -->
 
       <label for="nickname"> nickname : </label>
       <input type="text" id="nickname" v-model="nickname"><br>
@@ -28,30 +28,32 @@ export default {
   data() {
     return {
       email: null,
-      profile_image: null,
+      profile_image: '',
       nickname: null,
       password1: null,
       password2: null,
     }
   },
-  // methods: {
-  //   SignUp() {
-  //     const email = this.email
-  //     const profile_image = this.profile_image
-  //     const nickname = this.nickname
-  //     const password1 = this.password1
-  //     const password2 = this.password2
+  methods: {
+    UploadImage() {
 
-  //     const payload = {
-  //       email: email,
-  //       profile_image: profile_image,
-  //       nickname: nickname,
-  //       password1: password1,
-  //       password2: password2,
-  //     }
+    },
+    SignUp() {
+      const email = this.email
+      const nickname = this.nickname
+      const password1 = this.password1
+      const password2 = this.password2
 
-  //     this.$store.dispath('signUp', payload)
-  //   }
-  // }
+      const payload = {
+        email: email,
+        // profile_image: profile_image,
+        nickname: nickname,
+        password1: password1,
+        password2: password2,
+      }
+
+      this.$store.dispath('signUp', payload)
+    }
+  }
 }
 </script>
