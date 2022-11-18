@@ -24,7 +24,7 @@ export default {
   methods: {
     SelectedMovie(movie_id) {
       console.log(movie_id)
-      this.$router.push( {name: 'detail'} )
+      this.$router.push({name: 'detail', params: {movie_id}})
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-card-group deck>
+  <div class="row row-horizon">
+    <b-card-group>
       <MovieListItem
         v-for="movie in movies"
         :key="movie.id"

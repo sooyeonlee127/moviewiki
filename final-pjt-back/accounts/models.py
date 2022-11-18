@@ -8,8 +8,8 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have a email')
         if not nickname:
             raise ValueError('Users must have a nickname')
-        if not profile_image:
-            raise ValueError('Users must have a profile_image')
+        # if not profile_image:
+        #     raise ValueError('Users must have a profile_image')
 
         user = self.model(
         email=self.normalize_email(email),

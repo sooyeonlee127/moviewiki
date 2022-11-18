@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+// import createPersistedstate from 'vuex-persistedstate'
+
 
 
 Vue.use(Vuex)
@@ -8,6 +10,9 @@ Vue.use(Vuex)
 const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default new Vuex.Store({
+  // Plugins : [
+  //   createPersistedstate()
+  // ],
   state: {
     token: null,
     review: [],
@@ -33,6 +38,7 @@ export default new Vuex.Store({
       state.movie = movie
     },
     SAVE_TOKEN(state, token) {
+      console.log('SAVE_TOKEN')
       state.token = token
     }
   },
@@ -50,8 +56,8 @@ export default new Vuex.Store({
     // SelectedMovie(context, movie) {
     //   context.commit('SELECTED_MOVIE', movie)
     // }
-    signUp(context, payload) {
-      console.log("dhzlsss")
+    SignUp(context, payload) {
+      console.log(payload)
       axios({
         method: 'post',
         url: `${API_URL}/accounts/signup/`,

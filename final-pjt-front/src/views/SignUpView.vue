@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>Sign Up Page</h1>
-    <form @submit.prevent="signUp">
+    <form @submit.prevent="SignUp">
       <label for="email">email : </label>
       <input type="text" id="email" v-model="email"><br>
 
       <!-- <label for="profile_image"> profile_image : </label>
-      <input type="file" id="profile_image" @change="{}"><br> -->
+      <input type="file" id="profile_image"><br> -->
 
       <label for="nickname"> nickname : </label>
       <input type="text" id="nickname" v-model="nickname"><br>
@@ -28,17 +28,15 @@ export default {
   data() {
     return {
       email: null,
-      profile_image: '',
+      // profile_image: '',
       nickname: null,
       password1: null,
       password2: null,
     }
   },
   methods: {
-    UploadImage() {
-
-    },
     SignUp() {
+      console.log(this)
       const email = this.email
       const nickname = this.nickname
       const password1 = this.password1
@@ -51,8 +49,7 @@ export default {
         password1: password1,
         password2: password2,
       }
-
-      this.$store.dispath('signUp', payload)
+      this.$store.dispatch('SignUp', payload)
     }
   }
 }

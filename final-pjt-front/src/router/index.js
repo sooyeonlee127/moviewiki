@@ -17,11 +17,6 @@ const routes = [
     component: MovieView
   },
   {
-    path: 'detail',
-    name: 'detail',
-    component: DetailView
-  },
-  {
     path: '/choice',
     name: 'choice',
     component: ChoiceView
@@ -41,6 +36,11 @@ const routes = [
     name: 'profile',
     component: ProfileView
   }, 
+  {
+    path: '/:movie_id',
+    name: 'detail',
+    component: DetailView
+  },
 ]
 
 const router = new VueRouter({

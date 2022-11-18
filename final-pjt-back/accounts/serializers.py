@@ -11,7 +11,7 @@ class RegisterSerializer(RegisterSerializer):
     username = None
     nickname = serializers.CharField(max_length=15)
     # 추가 설정 필드: profile_image
-    profile_image = serializers.ImageField(use_url=True)
+    # profile_image = serializers.ImageField(use_url=True, required=False)
     
     # @transaction.atomic
     def save(self, request):
