@@ -14,13 +14,14 @@
       @sliding-end="onSlideEnd"
     >
       <!-- Text slides with image -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"
+      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[0].backdrop_path }`"
       ></b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-      </b-carousel-slide>
+      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[1].backdrop_path }`"
+      ></b-carousel-slide>
 
+      
       <!-- Slides with image only -->
       <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
 
@@ -57,10 +58,8 @@
         sliding: null
       }
     },
-    computed: {
-      movies() {
-        return this.$store.state.movies
-      }
+    props: {
+      movies: Object
     },
     methods: {
       onSlideStart(slide) {

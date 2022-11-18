@@ -7,7 +7,6 @@
         :movie="movie"
         />
     </b-card-group>
-
   </div>
 </template>
 
@@ -16,14 +15,12 @@ import MovieListItem from '@/components/MovieListItem.vue'
 
 export default {
   name: 'MovieList',
+  props: {
+    movies: Object
+  },
   components: {
     MovieListItem
   },
-  computed: {
-    movies() {
-      return this.$store.state.movies
-    }
-  }
 }
 </script>
 

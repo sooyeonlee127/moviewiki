@@ -1,7 +1,11 @@
 <template>
   <div class="home">
-    <MoviePoster/>
-    <MovieList/>
+    <MoviePoster
+      :movies="movies"
+    />
+    <MovieList
+      :movies="movies"
+    />
     <ActorList/>
   </div>
 </template>
@@ -25,6 +29,12 @@ export default {
     getMovies() {
       this.$store.dispatch('getMovies')
     }
-  }
+  },
+  computed: {
+    movies() {
+      return this.$store.state.movies
+    }
+  },
 }
 </script>
+ 

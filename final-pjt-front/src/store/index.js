@@ -9,6 +9,7 @@ const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default new Vuex.Store({
   state: {
+    token: null,
     review: [],
     movies: [],
     filter_list: [],
@@ -27,7 +28,13 @@ export default new Vuex.Store({
     },
     GET_REVIEWS(state, review) {
       state.review = review
-    }
+    },
+    // SELECTED_MOVIE(state, movie) {
+    //   state.movie = movie
+    // },
+    // SAVE_TOKEN(state, token) {
+    //   state.token = token
+    // }
   },
   actions: {
     // axios를 사용하여 데이터 가져오기
@@ -40,6 +47,31 @@ export default new Vuex.Store({
           context.commit('GET_MOVIES', res.data)
         })
     },
+    // SelectedMovie(context, movie) {
+    //   context.commit('SELECTED_MOVIE', movie)
+    // }
+    // signUp(context, payload) {
+    //   axios({
+    //     method: 'post',
+    //     url: `${API_URL}/accounts/signup/`,
+    //     data: {
+    //       email: payload.email,
+    //       profile_image: payload.profile_image,
+    //       nickname: payload.nickname,
+    //       password1: payload.password1,
+    //       password2: payload.password2
+    //     }
+    //   })
+    //     .then((res) => {
+    //       console.log(res)
+    //       console.log('성공!')
+    //       context.commit('SAVE_TOKEN', res.data.key)
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //       console.log('실패')
+    //     })
+    // }
   },
   modules: {
   }

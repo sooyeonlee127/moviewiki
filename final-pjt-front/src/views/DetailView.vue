@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>DetailView</h1>
+    
     <ReviewCreate/>
     <hr>
 
