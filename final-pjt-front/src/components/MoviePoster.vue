@@ -14,11 +14,11 @@
       @sliding-end="onSlideEnd"
     >
       <!-- Text slides with image -->
-      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[0].backdrop_path }`"
+      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[1]?.backdrop_path }`"
       ></b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[1].backdrop_path }`"
+      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[1]?.backdrop_path }`"
       ></b-carousel-slide>
 
       
@@ -55,23 +55,23 @@
     data() {
       return {
         slide: 0,
-        sliding: null
+        sliding: null,
       }
     },
     props: {
-      movies: Object
+      movies: Array,
     },
     methods: {
       onSlideStart(slide) {
         this.sliding = true
         console.log(slide)
-
       },
       onSlideEnd(slide) {
         this.sliding = false
         console.log(slide)
-
       }
+    },
+    computed: {
     }
   }
 </script>

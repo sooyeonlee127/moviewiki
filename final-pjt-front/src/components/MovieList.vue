@@ -16,7 +16,7 @@ import MovieListItem from '@/components/MovieListItem.vue'
 export default {
   name: 'MovieList',
   props: {
-    movies: Object
+    movies: Array
   },
   components: {
     MovieListItem

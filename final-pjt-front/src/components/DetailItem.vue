@@ -13,7 +13,7 @@
 export default {
   name: 'DetailItem',
   props: {
-    movie: Object,
+    movie: Array,
   }
 }
 </script>

@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-// import createPersistedstate from 'vuex-persistedstate'
+import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
 
 
 
@@ -10,9 +11,9 @@ Vue.use(Vuex)
 const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default new Vuex.Store({
-  // Plugins : [
-  //   createPersistedstate()
-  // ],
+  plugins : [
+    createPersistedState(),
+  ],
   state: {
     token: null,
     review: [],
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     ]
   },
   getters: {
+    isLogin(state) {
+      return state.token ? true : false
+    }
   },
   mutations: {
     GET_MOVIES(state, movies) {
@@ -40,10 +44,35 @@ export default new Vuex.Store({
     SAVE_TOKEN(state, token) {
       console.log('SAVE_TOKEN')
       state.token = token
+      router.push({ name: 'movie' })
     }
   },
   actions: {
     // axios를 사용하여 데이터 가져오기
+    // 추천 영화 메서드
+    Question(context, filter_list) { // 질문 반환
+      axios({
+        method: 'POST',
+        url: `${API_URL}/api/v1/movies/search/`,
+        data: {
+          filter_list
+        }
+      })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    Answer() { // count 개수 반환
+
+      return 0
+    },
+    GetResult() {
+
+    },
+    // ------------------------------
     getMovies(context) {
       axios({
         method: 'get',
@@ -78,6 +107,21 @@ export default new Vuex.Store({
           console.log(err)
           console.log('실패')
         })
+    },
+    logIn(context, payload) {
+      const email = payload.email
+      const password = payload.password
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/login/`,
+        data: {
+          email, password
+        }
+      })
+      .then(res => {
+        context.commit('SAVE_TOKEN', res.data.key)
+      })
+      .catch(error => console.log(error))
     }
   },
   modules: {
