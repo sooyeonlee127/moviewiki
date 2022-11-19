@@ -1,18 +1,18 @@
 <template>
-  <div>
-    <b-card
+  <div class="view overlay">
+    <img src="" alt="">
+    <img
       v-if="movie.adult==false"
       overlay
-      :img-src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`"        
+      :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`"        
       img-alt="Card Image"
       text-variant="white"
-      style="max-width: 10rem;"
       @click="SelectedMovie(movie.id)"
+      style="max-width: 10rem;"
     >
-      <!-- <b-card-text class="text-xl-center">
-        {{ movie.title }}
-      </b-card-text> -->
-    </b-card>
+      <div class="mask flex-center rgba-red-strong">
+      <p class="white-text">{{ movie.title }}</p>
+    </div>
   </div>
 </template>
  

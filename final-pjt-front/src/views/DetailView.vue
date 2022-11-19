@@ -1,18 +1,25 @@
 <template>
   <div>
-    <h1>DetailView</h1>
-    <DetailItem
-      :movie="this.movie"/>
+    <div class="container">
+    {{ movie.title }}
+    <b-card 
+      :img-src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" 
+      style="max-width: 20rem;"
+      img-right
+    >
+    </b-card>
+    <b-card-text>
+      <p>개봉일: {{ movie.release_date}}</p>
+      <p>{{ movie.genre_ids }}</p>
+    </b-card-text>
+    </div>
     <ReviewCreate/>
     <hr>
-
-
   </div>
 </template>
 
 <script>
 import ReviewCreate from '@/components/ReviewCreate.vue'
-import DetailItem from '@/components/DetailItem.vue'
 
 
 export default {
@@ -24,7 +31,6 @@ export default {
   },
   components: {
     ReviewCreate,
-    DetailItem
   },
   computed: {
     movies() {

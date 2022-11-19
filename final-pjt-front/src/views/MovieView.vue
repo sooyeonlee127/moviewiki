@@ -1,17 +1,17 @@
 <template>
-  <div class="home">
+  <div class="home" :style="myStyle">
     <MoviePoster
       :movies="movies"
     />
-    <hr>
+    <br>
     <MovieList
       :movies="movies"
     />
-    <hr>
+    <br>
     <ActorList
       :actors="actors"
     />
-    <hr>
+    <br>
     <TrendingList
       :trending="trending"  
     />
@@ -38,6 +38,9 @@ export default {
     return {
       actors: [],
       trending: [],
+      myStyle: {
+          backgroundColor :"#000" 
+        }
     }
   },
   created() {

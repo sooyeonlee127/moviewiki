@@ -1,7 +1,7 @@
 <template>
 <div>
+  <h3>오늘의 화제인물을 만나보세요</h3>
   <div class="row row-horizon">
-  <h3>movie</h3>
   <b-card-group>
     <ActorListItem
       v-for="actor in actors"

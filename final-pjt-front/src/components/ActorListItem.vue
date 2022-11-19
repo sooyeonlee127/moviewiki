@@ -1,14 +1,11 @@
 <template>
   <div>
-    <b-card
+    <b-avatar
+    :src="`https://image.tmdb.org/t/p/original/${ actor.profile_path }`"     
       v-if="actor.adult==false"
-      overlay
-      :img-src="`https://image.tmdb.org/t/p/original/${ actor.profile_path }`"        
-      img-alt="Card Image"
-      text-variant="white"
-      style="max-width: 10rem;"
+      size="120px"
     >
-    </b-card>
+    </b-avatar>
   </div>
 </template>
 

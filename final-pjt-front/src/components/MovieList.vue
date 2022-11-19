@@ -1,6 +1,6 @@
 <template>
-  <div class="row row-horizon">
-    <h3>movie</h3>
+  <div class="row row-horizon overflow-x-auto" :style="myStyle">
+    <h3>꼭 봐야하는 콘텐츠</h3>
     <b-card-group>
       <MovieListItem
         v-for="movie in movies"
@@ -22,9 +22,17 @@ export default {
   components: {
     MovieListItem
   },
+  data(){
+    return{
+      myStyle:{
+        backgroundColor:"#000" 
+      }
+    }
+  }
 }
 </script>
 
 <style>
+
 
 </style>
