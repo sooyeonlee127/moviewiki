@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import SearchMovieSerializer, CommentSerializer
-from .models import Movie
+from .models import Movie, Comment
 
 
 # Create your views here.
@@ -97,3 +97,10 @@ def comment_create(request, movie_id):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+@api_view(['GET'])
+def comment_list(request):
+    if request.method == 'GET':
+        comments = get_list_or_404(Comment)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)

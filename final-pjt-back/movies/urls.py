@@ -7,6 +7,8 @@ urlpatterns = [
     path('search/', views.search_count_movie, name="search"),
     path('popular/<int:movie_id>/', views.get_movieList_popular_detail),
     path('popular/<int:movie_id>/comments/', views.comment_create),
+    path('comments/', views.comment_list),
+
 ]
 
 

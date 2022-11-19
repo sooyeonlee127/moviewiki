@@ -6,6 +6,7 @@
       img-alt="Card Image"
       text-variant="white"
       style="max-width: 10rem;"
+      @click="SelectedMovie(movie.id)"
     >
     </b-card>
   </div>
@@ -16,8 +17,14 @@ export default {
   name: 'TrendingListItem',
   props: {
     trend: Object,
+  },
+  methods: {
+    SelectedMovie(movie_id) {
+      console.log(movie_id)
+      this.$router.push({name: 'detail', params: {movie_id}})
+      }
+    }
   }
-}
 </script>
 
 <style>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-card
+      v-if="actor.adult==false"
       overlay
       :img-src="`https://image.tmdb.org/t/p/original/${ actor.profile_path }`"        
       img-alt="Card Image"

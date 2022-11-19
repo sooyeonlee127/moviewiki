@@ -78,7 +78,20 @@ export default new Vuex.Store({
           console.log(err)
           console.log('실패')
         })
-    }
+    },
+  // logIn(context, payload) {
+  //   axios({
+  //     method: 'post',
+  //     url: `${API_URL}/accounts/login/`,
+  //     data: {
+  //       email: payload.email,
+  //       password: payload.password
+  //     }
+  //   })
+  //     .then((res) => {
+  //       context.commit('SAVE_TOKEN', res.data.key)
+  //     })
+  // }
   },
   modules: {
   }

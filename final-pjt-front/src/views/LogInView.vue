@@ -23,17 +23,20 @@ export default {
   // data() {
   //   return {
   //     username: null,
+  //     email: null,
   //     password: null
   //   }
   // },
   // methods: {
   //   logIn() {
   //     const username = this.username
+  //     const email = this.email
   //     const password = this.password
 
   //     const payload = {
   //       username: username,
-  //       password: password
+  //       password: password,
+  //       email: email
   //     }
   //     this.$store.dispath('logIn', payload)
   //   }
