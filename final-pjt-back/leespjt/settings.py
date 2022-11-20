@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     # Django Apps
     'accounts',
     'movies',
-    'recommends',
     
     # REST API용 
     'rest_framework',

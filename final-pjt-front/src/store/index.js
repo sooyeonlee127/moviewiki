@@ -18,13 +18,7 @@ export default new Vuex.Store({
     token: null,
     review: [],
     movies: [],
-    filter_list: [],
-    questions: [ // index - 1: 질문, 2: 대답, 3: key, 4: value, 5: 소거(0) / 포함(1)
-      ["가족과 함께 보시나요?", ["Yes", "No"], "adult", true, 0],
-      ["겁이 많으신가요?", ["Yes", "No"], "genre_ids", 27, 0],
-      ["음악 영화 좋아하세요?", ["Yes", "No"], "genre_ids", 10402, 1],
-      ["연인과 함께 보시나요?", ["Yes", "No"], "genre_ids", 10749, 1],
-    ]
+    filter_list: []//[['title', '블랙 팬서', 0], ['title', '아바타', 0]],
   },
   getters: {
     isLogin(state) {
@@ -48,35 +42,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    // axios를 사용하여 데이터 가져오기
-    // 추천 영화 메서드
-    Question(context, filter_list) { // 질문 반환
-      axios({
-        method: 'POST',
-        url: `${API_URL}/api/v1/movies/search/`,
-        data: {
-          filter_list
-        }
-      })
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    Answer() { // count 개수 반환
-
-      return 0
-    },
-    GetResult() {
-
-    },
-    // ------------------------------
     getMovies(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/popular/`,
+        url: `${API_URL}/api/v1/popular/`,
       })
         .then((res) => {
           context.commit('GET_MOVIES', res.data)
@@ -100,12 +69,10 @@ export default new Vuex.Store({
       })
         .then((res) => {
           console.log(res)
-          console.log('성공!')
           context.commit('SAVE_TOKEN', res.data.key)
         })
         .catch((err) => {
           console.log(err)
-          console.log('실패')
         })
     },
     logIn(context, payload) {
