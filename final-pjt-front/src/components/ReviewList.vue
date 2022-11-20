@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Review List</h3>
+    <p>나의 리뷰</p>
     <ReviewListItem
       />
   </div>

@@ -4,6 +4,7 @@
       :movies="movies"
     />
     <br>
+    <br>
     <MovieList
       :movies="movies"
     />
@@ -64,12 +65,6 @@ export default {
         }
       }).then((response) => {
         const actors = response.data.results
-        // var answer = []
-        // for (actor in actors) {
-        //   if (actor.adult == false) {
-        //     answer.push(actor)
-        //   }
-        // }
         this.actors = actors
 
       }).catch((error) => {

@@ -8,7 +8,8 @@
       img-alt="Card Image"
       text-variant="white"
       @click="SelectedMovie(movie.id)"
-      style="max-width: 10rem;"
+      style="width: 10rem; height:15rem;"
+      b-aspect="1:1"
     >
       <div class="mask flex-center rgba-red-strong">
       <p class="white-text">{{ movie.title }}</p>

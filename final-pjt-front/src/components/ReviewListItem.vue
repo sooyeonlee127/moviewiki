@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>ReviewListItem</h3>
+    <p>ReviewListItem</p>
   </div>
 </template>
 

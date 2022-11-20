@@ -8,6 +8,13 @@
         :movie="movie"
         />
     </b-card-group>
+    <b-card-group>
+      <MovieListItem
+        v-for="movie in movies"
+        :key="movie.id"
+        :movie="movie"
+        />
+    </b-card-group>
   </div>
 </template>
 

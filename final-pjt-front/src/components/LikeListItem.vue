@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>LikeListItem</h3>
+    <p>LikeListItem</p>
     <div>
     </div>
   </div>

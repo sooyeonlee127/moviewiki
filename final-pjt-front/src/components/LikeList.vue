@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>LikeList</h3>
+    <p>내가 찜한 영화 & 콘텐츠</p>
     <LikeListItem/>
   </div>
 </template>
