@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import SearchMovieSerializer, CommentSerializer
+from .serializers import SearchMovieSerializer, CommentSerializer, MovieSerializer
 from .models import Movie, Comment
 from .models import Movie
 import json # json 파일 파싱용
@@ -80,9 +80,10 @@ def search_movie_get_result(request):
 @api_view(['POST'])
 def comment_create(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
+    # print(movie.comment_set)
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
+        serializer.save(movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -92,3 +93,34 @@ def comment_list(request):
         comments = get_list_or_404(Comment)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+
+
+
+@api_view(['GET', 'DELETE', 'PUT'])
+def comment_detail(request, comment_pk):
+    # comment = Comment.objects.get(pk=comment_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
+
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+
+
+@api_view(['POST'])
+def create_movie(request):
+    serializer = SearchMovieSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

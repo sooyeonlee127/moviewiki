@@ -1,7 +1,7 @@
 <template>
   <div class="view overlay">
     <img src="" alt="">
-    <img
+    <img class="movie_item"
       v-if="movie.adult==false"
       overlay
       :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`"        
@@ -33,5 +33,8 @@ export default {
 </script>
 
 <style>
+.movie_item {
+  cursor: pointer;
+}
 
 </style>
