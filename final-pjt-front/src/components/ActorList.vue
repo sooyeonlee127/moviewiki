@@ -21,7 +21,7 @@ import ActorListItem from '@/components/ActorListItem.vue'
 export default {
   name: 'ActorList',
   props: {
-    actors: Object,
+    actors: Array,
   },
   components: {
     ActorListItem

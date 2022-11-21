@@ -14,7 +14,14 @@
       img-height="480"
       style="text-shadow: 1px 1px 2px #333;"
     >
-      
+      <!-- Text slides with image -->
+      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[1]?.backdrop_path }`"
+      ></b-carousel-slide>
+
+      <!-- Slides with custom text -->
+      <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[1]?.backdrop_path }`"
+      ></b-carousel-slide>
+
       <b-carousel-slide :img-src="`https://image.tmdb.org/t/p/original/${ movies[0].backdrop_path }`">
         <h1>
           {{ movies[0].title }}
@@ -51,8 +58,20 @@
     },
     
     props: {
-      movies: Object
+      movies: Array,
     },
+    methods: {
+      onSlideStart(slide) {
+        this.sliding = true
+        console.log(slide)
+      },
+      onSlideEnd(slide) {
+        this.sliding = false
+        console.log(slide)
+      }
+    },
+    computed: {
+    }
   }
 </script>
 

@@ -2,8 +2,8 @@
   <div>
     <h1>LogIn Page</h1>
     <form @submit.prevent="logIn">
-      <label for="username">username : </label>
-      <input type="text" id="username" v-model="username"><br>
+      <label for="email">email : </label>
+      <input type="text" id="email" v-model="email"><br>
 
       <label for="password"> password : </label>
       <input type="password" id="password" v-model="password"><br>
@@ -20,27 +20,23 @@
 // 이전에 작성되어있던 SIGN_UP mutation을 지우고 하나로 활용
 export default {
   name: 'LogInView',
-  // data() {
-  //   return {
-  //     username: null,
-  //     email: null,
-  //     password: null
-  //   }
-  // },
-  // methods: {
-  //   logIn() {
-  //     const username = this.username
-  //     const email = this.email
-  //     const password = this.password
+  data() {
+    return {
+      email: null,
+      password: null
+    }
+  },
+  methods: {
+    logIn() {
+      const email = this.email
+      const password = this.password
 
-  //     const payload = {
-  //       username: username,
-  //       password: password,
-  //       email: email
-  //     }
-  //     this.$store.dispath('logIn', payload)
-  //   }
-
-  // }
+      const payload = {
+        email: email,
+        password: password
+      }
+      this.$store.dispatch('logIn', payload)
+    }
+  }
 }
 </script>

@@ -18,13 +18,23 @@ export default {
   components: {
     LikeList,
     ReviewList
+  },  
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin
+    }
   },
   created() {
     this.getReviews()
   },
   methods: {
     getReviews() {
-      this.$store.dispatch('getReviews')
+      if (this.isLogin) {
+        this.$store.dispatch('getReviews')
+      } else {
+        alert('로그인이 필요한 서비스입니다')
+        this.$router.push({ name: 'login' })
+      }
     }
   }
 
