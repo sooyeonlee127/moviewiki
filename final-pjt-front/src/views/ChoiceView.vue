@@ -1,13 +1,14 @@
 <template>
   <div>
     <hr>
-    {{ questions[index][0] }}
-    <b-button variant="outline-success" @click="getCount(1)">{{ questions[index][1][0] }}</b-button>
-    <b-button variant="outline-success" @click="getCount(2)">{{ questions[index][1][1] }}</b-button>
-    {{ index }}
+
+    {{ questions[index].content }}
+    <b-button variant="outline-success" 
+    v-for="(question, idx) in questions[index]['answers']"
+    :key="`question_${idx}`"
+    @click="getCount(idx)">{{ question }}</b-button>
     <p>선택 끝났을 때 출력할 영상</p>
-    
-  </div>
+   </div> 
 </template>
 
 <script>
@@ -42,16 +43,16 @@ export default {
 
   methods: {
     getCount(answer) { // count 개수 반환(filter_list와 함께)
-      const question = this.questions[this.index].slice(2,5) //["가족과 함께 보시나요?", ["네", "아니오"], "adult", true, 0],
-      let iscontain = 0
-      if (answer == 1 ) {
-        iscontain = question[2]
-      } else {
-        iscontain = (question[2]+1)%2
+
+      const question = this.questions[this.index]
+      console.log(this.questions[this.index].answers)
+      // console.log(question)
+      let tmp = {
+        'answers_option': question.answers_option[answer],
+        'field_name': question.field_name,
+        'field_value': question.field_value,
       }
-      question.pop()
-      question.push(iscontain)
-      this.filter_list.push(question)
+      this.filter_list.push(tmp)
       axios({
         method: 'POST',
         url: `${API_URL}/api/v1/count/`,
