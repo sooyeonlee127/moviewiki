@@ -59,6 +59,7 @@ def filter_movie(filter_list):
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 def search_movie_get_count(request): # request(POST) : filter_list => return : count
+    
     filter_list = json.loads(request.body)['filter_list']
     print(filter_list)
     result = {
@@ -70,6 +71,7 @@ def search_movie_get_count(request): # request(POST) : filter_list => return : c
 @api_view(['POST'])
 def search_movie_get_result(request):
     filter_list = json.loads(request.body)['filter_list']
+    print('result')
     print(filter_list)
     result = filter_movie(filter_list)
     serializer = SearchMovieSerializer(result, many=True)
