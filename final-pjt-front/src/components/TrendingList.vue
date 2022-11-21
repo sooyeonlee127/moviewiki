@@ -22,7 +22,7 @@ export default {
     TrendingListItem
   },
   props: {
-    trending: Object,
+    trending: Array,
   }
 }
 </script>

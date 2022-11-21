@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-// import createPersistedstate from 'vuex-persistedstate'
+import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
 
 
 
@@ -10,24 +11,27 @@ Vue.use(Vuex)
 const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default new Vuex.Store({
-  // Plugins : [
-  //   createPersistedstate()
-  // ],
+  plugins : [
+    createPersistedState(),
+  ],
   state: {
     token: null,
     review: [],
     movies: [],
-    filter_list: [],
-    questions: [ // index - 1: 질문, 2: 대답, 3: key, 4: value, 5: 소거(0) / 포함(1)
-      ["가족과 함께 보시나요?", ["네", "아니오"], "adult", true, 0],
-      ["겁이 많으신가요?", ["네", "아니오"], "genre_ids", 27, 0],
-      ["음악 영화 좋아하세요?", ["네", "아니오"], "genre_ids", 10402, 1],
-      ["연인과 함께 보시나요?", ["네", "아니오"], "genre_ids", 10749, 1],
-      ["최신 영화는 어떠세요?", ["좋아요", "싫어요"],"genre_ids", 10749, 1],
-      ["확실한 기분전환이 필요하신가요?", ["네", "아니오"], "genre_ids", 10749, 1],
-    ]
+    filter_list: []//[['title', '블랙 팬서', 0], ['title', '아바타', 0]],
+    // questions: [ // index - 1: 질문, 2: 대답, 3: key, 4: value, 5: 소거(0) / 포함(1)
+    //   ["가족과 함께 보시나요?", ["네", "아니오"], "adult", true, 0],
+    //   ["겁이 많으신가요?", ["네", "아니오"], "genre_ids", 27, 0],
+    //   ["음악 영화 좋아하세요?", ["네", "아니오"], "genre_ids", 10402, 1],
+    //   ["연인과 함께 보시나요?", ["네", "아니오"], "genre_ids", 10749, 1],
+    //   ["최신 영화는 어떠세요?", ["좋아요", "싫어요"],"genre_ids", 10749, 1],
+    //   ["확실한 기분전환이 필요하신가요?", ["네", "아니오"], "genre_ids", 10749, 1],
+    // ]
   },
   getters: {
+    isLogin(state) {
+      return state.token ? true : false
+    }
   },
   mutations: {
     GET_MOVIES(state, movies) {
@@ -42,14 +46,14 @@ export default new Vuex.Store({
     SAVE_TOKEN(state, token) {
       console.log('SAVE_TOKEN')
       state.token = token
+      router.push({ name: 'movie' })
     }
   },
   actions: {
-    // axios를 사용하여 데이터 가져오기
     getMovies(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/popular/`,
+        url: `${API_URL}/api/v1/popular/`,
       })
         .then((res) => {
           context.commit('GET_MOVIES', res.data)
@@ -73,27 +77,27 @@ export default new Vuex.Store({
       })
         .then((res) => {
           console.log(res)
-          console.log('성공!')
           context.commit('SAVE_TOKEN', res.data.key)
         })
         .catch((err) => {
           console.log(err)
-          console.log('실패')
         })
     },
-  // logIn(context, payload) {
-  //   axios({
-  //     method: 'post',
-  //     url: `${API_URL}/accounts/login/`,
-  //     data: {
-  //       email: payload.email,
-  //       password: payload.password
-  //     }
-  //   })
-  //     .then((res) => {
-  //       context.commit('SAVE_TOKEN', res.data.key)
-  //     })
-  // }
+    logIn(context, payload) {
+      const email = payload.email
+      const password = payload.password
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/login/`,
+        data: {
+          email, password
+        }
+      })
+      .then(res => {
+        context.commit('SAVE_TOKEN', res.data.key)
+      })
+      .catch(error => console.log(error))
+    }
   },
   modules: {
   }
