@@ -95,7 +95,7 @@ def search_movie_make_question(request):
 def search_movie_get_result(request):
     filter_list = json.loads(request.body)['filter_list']
     result = filter_movie(filter_list)
-    serializer = SearchMovieSerializer(result)
+    serializer = SearchMovieSerializer(result, many=True)
     return JsonResponse(serializer.data, safe=False)
 
 # filter_list = [
