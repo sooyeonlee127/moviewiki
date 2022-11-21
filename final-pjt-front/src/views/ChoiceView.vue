@@ -1,13 +1,13 @@
 <template>
   <div>
     <hr>
-    {{ questions[index][0] }}
-    <b-button variant="outline-success" @click="Answer">{{ questions[index][1][0] }}</b-button>
-    <b-button variant="outline-success" @click="Answer">{{ questions[index][1][1] }}</b-button>
-    {{ index }}
+    {{ questions[index].content }}
+    <b-button variant="outline-success" 
+    v-for="(question, idx) in questions[index]['answers']"
+    :key="`question_${idx}`"
+    @click="getCount(idx)">{{ question }}</b-button>
     <p>선택 끝났을 때 출력할 영상</p>
-    
-  </div>
+   </div> 
 </template>
 
 <script>
@@ -41,7 +41,16 @@ export default {
 
 
   methods: {
-    getCount() { // count 개수 반환(filter_list와 함께)
+    getCount(answer) { // count 개수 반환(filter_list와 함께)
+      const question = this.questions[this.index]
+      console.log(this.questions[this.index].answers)
+      // console.log(question)
+      let tmp = {
+        'answers_option': question.answers_option[answer],
+        'field_name': question.field_name,
+        'field_value': question.field_value,
+      }
+      this.filter_list.push(tmp)
       axios({
         method: 'POST',
         url: `${API_URL}/api/v1/count/`,
@@ -54,7 +63,7 @@ export default {
       })
       .then((res) => {
         console.log(JSON.parse(res.data).count)
-        if (JSON.parse(res.data).count > 5) {
+        if (JSON.parse(res.data).count > 7) {
           this.index ++
         } else {
           this.GetResult()
