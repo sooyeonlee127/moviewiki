@@ -1,6 +1,11 @@
 <template>
   <div>
     <div style="max-width: 30rem;">
+    <ReviewListItem
+    v-for="(review, idx) in review_list"
+    :key="`review_${idx}`"
+    :review="review"
+    />
     <form @submit.prevent="createComment" method="POST">
       <h3></h3>
       <div>
@@ -17,11 +22,7 @@
       <input type="submit">
     </form>
   </div>
-    <ReviewListItem
-    v-for="(review, idx) in review_list"
-    :key="`review_${idx}`"
-    :review="review"
-    />
+
   </div>
 </template>
 

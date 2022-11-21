@@ -3,7 +3,8 @@
     <p>{{ review.user }}</p>
     <p>
       <span>{{ review.content }}</span> | 
-      <span>{{ review.created_at }}</span>
+      <span>{{ review.created_at }}</span> |
+      <span>{{ review.rating }}점</span>
     </p>
     
   </div>
