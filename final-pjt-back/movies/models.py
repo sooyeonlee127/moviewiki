@@ -27,20 +27,14 @@ class Movie(models.Model):
     # like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_movies")
 
 
-# class Rating(models.Model):
-#     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-#     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     score = models.IntegerField()
-
-
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
+    rating = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return self.content
-
-

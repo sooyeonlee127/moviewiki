@@ -43,6 +43,7 @@ def get_movie_latest(request, language):
     return
 
 
+
 def filter_movie(filter_list):
     q = Q()
     for field_name, val, isContain in filter_list:
@@ -84,7 +85,8 @@ def search_movie_make_question(request):
     serializer = SearchMovieSerializer(result)
     return JsonResponse(serializer.data, safe=False)
 
-# questions: [ // index - 1: 질문, 2: 대답, 3: key, 4: value, 5: 소거(0) / 포함(1)
+# questions: 
+# [ // index - 1: 질문, 2: 대답, 3: key, 4: value, 5: 소거(0) / 포함(1)
 # ["가족과 함께 보시나요?", ["Yes", "No"], "adult", true, 0],
 # ["겁이 많으신가요?", ["Yes", "No"], "genre_ids", 27, 0],
 # ["음악 영화 좋아하세요?", ["Yes", "No"], "genre_ids", 10402, 1],
@@ -94,9 +96,11 @@ def search_movie_make_question(request):
 @api_view(['POST'])
 def search_movie_get_result(request):
     filter_list = json.loads(request.body)['filter_list']
+    print(filter_list)
     result = filter_movie(filter_list)
     serializer = SearchMovieSerializer(result, many=True)
     return JsonResponse(serializer.data, safe=False)
+
 
 # filter_list = [
 #     ['title', '와칸다'],
@@ -114,9 +118,6 @@ def search_movie_get_result(request):
     search_value : Integer or Boolean or list
 
     '''
-
-
-
 
 # review 관련 view
 @api_view(['POST'])
