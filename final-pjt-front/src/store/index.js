@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from '@/router'
-import createPersistedState from 'vuex-persistedstate'
 
 
 
@@ -11,15 +10,20 @@ Vue.use(Vuex)
 const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default new Vuex.Store({
-  plugins : [
-    createPersistedState(),
-  ],
   state: {
     token: null,
     review: [],
     movies: [],
     filter_list: [],//[['title', '블랙 팬서', 0], ['title', '아바타', 0]],
     questions: [
+      {},
+      {
+        'content': "사람들이 가장 많이 찾는, 인기도 높은 영화만 보시겠어요?",
+        'answers': ["네", "아니오"],
+        'answers_option': [1, 2],
+        'field_name': "popularity",
+        'field_value': [500],
+      },
       {
         'content': "가족과 함께 보시나요?",
         'answers': ["네", "아니오"],
@@ -28,11 +32,25 @@ export default new Vuex.Store({
         'field_value': [true],
       },
       {
+        'content': "최신영화 위주로 보시겠어요?",
+        'answers': ["네", "아니오"],
+        'answers_option': [1, 0],
+        'field_name': "release_date",
+        'field_value': ['202'],
+      },
+      {
         'content': "겁이 많으신가요?",
         'answers': ["네", "아니오"],
         'answers_option': [0, 2],
         'field_name': "genre_ids",
         'field_value': [27, 80, 53],
+      },
+      {
+        'content': "한국 영화만 보시겠어요?",
+        'answers': ["네", "아니오"],
+        'answers_option': [1, 2],
+        'field_name': "original_language",
+        'field_value': ["ko"],
       },
       {
         'content': "음악 영화 좋아하세요?",
@@ -104,6 +122,7 @@ export default new Vuex.Store({
         'field_name': "genre_ids",
         'field_value': [10752],
       },
+
     ]
     // [ // index - 1: 질문, 2: 대답, 3: key, 4: value, 5: 소거(0) / 포함(1) / 스킵(2)
     //   ["가족과 함께 보시나요?", ["네", "아니오"], "adult", [true], [0, 2]],

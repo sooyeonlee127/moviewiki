@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       filter_list : [],
-      index: 0,
+      index: 1,
       result : [],
     }
   },
@@ -94,15 +94,21 @@ export default {
         //   console.log(this.filter_list)
         //   this.index ++
         // } 
-        if (JSON.parse(res.data).count > 7) {
+        if (JSON.parse(res.data).count > 30) {
+          this.GetResult()
           this.index ++
         } else if (JSON.parse(res.data).count == 0) {
           this.filter_list.pop()
           console.log('pop')
           console.log(this.filter_list)
           this.index ++
-        } else {
+        } else if (JSON.parse(res.data).count <= 5) {
           this.GetResult()
+        } else {
+          console.log(this.result[0].id)
+          console.log(this.result[0])
+          this.FindSimilar(this.result[0].id)
+
         }
         })
         .catch((err) => {
@@ -125,6 +131,7 @@ export default {
         .then((res) => {
           console.log(res.data)
           this.result = res.data
+
         })
         .catch((err) => {
           console.log(err)
@@ -134,6 +141,24 @@ export default {
       console.log(movie_id)
       this.$router.push({name: 'detail', params: {movie_id}})
     },
+    FindSimilar(movie_id) {
+      console.log('findsimilar')
+      console.log(movie_id)
+      const API_URL = `https://api.themoviedb.org/3/movie/${movie_id}/similar`
+      const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
+      axios.get(API_URL, {
+        params: {
+            api_key: API_KEY,
+            language: 'ko',
+            page: 1,
+        }
+      }).then((res) => {
+        console.log(res.data.results)
+      }).catch((error) => {
+          console.error(error)
+      })
+    
+    }
   },
 }
 </script>

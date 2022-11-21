@@ -53,6 +53,22 @@ def filter_movie(filter_list):
                     q.add(Q(genre_ids=val), q.AND)
                 else:
                     q.add(~Q(genre_ids=val), q.AND)
+            elif item['field_name'] == 'release_date':
+                if isContain:
+                    q.add(Q(release_date__startswith=val), q.AND)
+                else:
+                    q.add(~Q(release_date__startswith=val), q.AND)
+            elif item['field_name'] == 'original_language':
+                if isContain:
+                    q.add(Q(original_language=val), q.AND)
+                else:
+                    q.add(~Q(original_language=val), q.AND)
+            elif item['field_name'] == 'popularity':
+                if isContain:
+                    q.add(Q(popularity__gt=val), q.AND)
+                else:
+                    q.add(~Q(popularity__gt=val), q.AND)
+
     return Movie.objects.filter(q)
     
 
