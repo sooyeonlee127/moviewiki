@@ -8,13 +8,14 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
-const API_URL = "http://127.0.0.1:8000" // django 서버
+
 
 export default new Vuex.Store({
   plugins : [
     createPersistedState(),
   ],
   state: {
+    API_URL : "http://127.0.0.1:8000", // django 서버
     token: null,
     review: [],
     movies: [],
@@ -131,7 +132,7 @@ export default new Vuex.Store({
     getMovies(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/popular/`,
+        url: `${this.state.API_URL}/api/v1/popular/`,
       })
         .then((res) => {
           context.commit('GET_MOVIES', res.data)
@@ -141,7 +142,7 @@ export default new Vuex.Store({
       console.log(payload)
       axios({
         method: 'post',
-        url: `${API_URL}/accounts/signup/`,
+        url: `${this.state.API_URL}/accounts/signup/`,
         data: {
           email: payload.email,
           // profile_image: payload.profile_image,
@@ -163,7 +164,7 @@ export default new Vuex.Store({
       const password = payload.password
       axios({
         method: 'post',
-        url: `${API_URL}/accounts/login/`,
+        url: `${this.state.API_URL}/accounts/login/`,
         data: {
           email, password
         }

@@ -8,8 +8,9 @@ class SearchMovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__'
 
+
 class CommentSerializer(serializers.ModelSerializer):
-    # user_id = serializers.IntegerField(source='user.id', read_only=True)
+    user = serializers.CharField(source='user.email', read_only=True)
 
     class Meta:
         model = Comment
@@ -17,7 +18,6 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ('movie',)
 
 
-        
 
 class MovieSerializer(serializers.ModelSerializer):
     comment_set = CommentSerializer(many=True, read_only=True)

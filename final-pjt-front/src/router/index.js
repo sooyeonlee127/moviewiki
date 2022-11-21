@@ -37,7 +37,7 @@ const routes = [
     component: ProfileView
   }, 
   {
-    path: '/:movie_id',
+    path: '/movies/:movie_id',
     name: 'detail',
     component: DetailView
   },

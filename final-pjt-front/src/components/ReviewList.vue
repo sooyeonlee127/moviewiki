@@ -1,11 +1,11 @@
 <template>
   <div>
     <div style="max-width: 30rem;">
-    <form @submit.prevent="createComment">
+    <form @submit.prevent="createComment" method="POST">
       <h3></h3>
       <div>
         <label for="rating-inline">별점 : </label>
-        <b-form-rating id="rating-inline" inline value="value"></b-form-rating>
+        <b-form-rating id="rating-inline" inline value="value" v-model="rating"></b-form-rating>
       </div>
       <b-form-textarea
         id="content-textarea-no-resize"
@@ -17,15 +17,17 @@
       <input type="submit">
     </form>
   </div>
-    <ReviewListItem/>
+    <ReviewListItem
+    v-for="(review, idx) in review_list"
+    :key="`review_${idx}`"
+    :review="review"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import ReviewListItem from '@/components/ReviewListItem.vue'
-
-const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default {
   name: 'ReviewList',
@@ -35,26 +37,35 @@ export default {
   data() {
     return {
       content: null,
+      rating: null,
+      API_URL: this.$store.state.API_URL
+    }
+  },
+  props: {
+    reviews: Array,
+    movie_id: Number,
+  },
+  computed: {
+    review_list() {
+      return this.reviews
     }
   },  
-  props: {
-    movie: Object,
-  },
   methods: {
     createComment() {
-      console.log(this.content)
       axios({
         method: 'POST',
-        url: `${API_URL}/api/v1/movies/${this.movie.id}/comment_create/`,
-        header: {
+        url: `${this.API_URL}/api/v1/movies/${this.movie_id}/comment_create/`,
+        headers: {
           Authorization: `Token ${this.$store.state.token}`
         },
         data: {
           content: this.content,
+          rating: this.rating,
         }
       })
       .then((res) => {
-        console.log(res)
+        const review = res.data
+        this.review_list.push(review)
       })
       .catch((error) => {
         console.log(error)
