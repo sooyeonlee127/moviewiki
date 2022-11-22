@@ -39,9 +39,10 @@ export default {
   data() {
     return {
       filter_list : [],
-      index: 1,
+      index: 0,
       result : [],
-      API_URL: this.$store.state.API_URL
+      API_URL: this.$store.state.API_URL,
+      gerne_cnt: 0,
     }
   },
   computed: {
@@ -68,6 +69,12 @@ export default {
         'field_name': question.field_name,
         'field_value': question.field_value,
       }
+      if (tmp['field_name'] == 'genre_ids') {
+        this.gerne_cnt += tmp['field_value'].length
+        if (this.gerne_cnt >= 10 && this.index < 10 ) {
+          this.index = 11
+        }
+      }
       this.filter_list.push(tmp)
       axios({
         method: 'POST',
@@ -81,39 +88,26 @@ export default {
       })
       .then((res) => {
         console.log(JSON.parse(res.data).count)
-        // if (this.index == this.questions.length && JSON.parse(res.data).count == 0) {
-        //   this.filter_list.pop()
-        //   console.log('pop')
-        //   console.log(this.filter_list)
-        //   this.GetResult()
-        // } else if (this.index == this.questions.length) {
-        //   this.GetResult()
-        // } else if (JSON.parse(res.data).count == 0 ){
+        // if (JSON.parse(res.data).count > 10) {
+        //   this.index ++
+        // } else if (JSON.parse(res.data).count == 0) {
         //   this.filter_list.pop()
         //   console.log('pop')
         //   console.log(this.filter_list)
         //   this.index ++
-        // } 
-        if (JSON.parse(res.data).count > 30) {
-          this.GetResult()
-          this.index ++
-        } else if (JSON.parse(res.data).count == 0) {
-          this.filter_list.pop()
-          console.log('pop')
-          console.log(this.filter_list)
-          this.index ++
-        } else if (JSON.parse(res.data).count <= 5) {
-          this.GetResult()
+        // } else {
+        //   console.log(this.result[0].id)
+        //   console.log(this.result[0])
+        //   this.FindSimilar(this.result[0].id)
+        // }
+        if (this.gerne_cnt >= 10 && this.index == 11) {
+          console.log('인덱스 이동')
         } else {
-          console.log(this.result[0].id)
-          console.log(this.result[0])
-          this.FindSimilar(this.result[0].id)
-
+        this.index ++
         }
         })
         .catch((err) => {
           console.log(err)
-          this.index ++
         })
     },
     GetResult() { // 추천 영화 반환
@@ -153,6 +147,7 @@ export default {
             page: 1,
         }
       }).then((res) => {
+        
         console.log(res.data.results)
       }).catch((error) => {
           console.error(error)
