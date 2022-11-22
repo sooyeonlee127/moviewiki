@@ -7,7 +7,7 @@
       <b-button variant="outline-success"
       v-for="(question, idx) in questions[index]['answers']"
       :key="`question_${idx}`"
-      @click="click(idx)">{{ question }}</b-button>
+      @click="getCount(idx)">{{ question }}</b-button>
     </div>
     <div v-else-if="view_step == 2">
       <h1>{{ result[idx].title }}는 어떠세요?</h1>
@@ -16,7 +16,13 @@
       <b-button @click="SelectMovie(false, result[idx])">싫어요</b-button>
     </div>
     <div v-else>
-      <h1>result</h1>
+      <div 
+      v-for="(movie, idx) in result"
+      :key="`movie_${idx}`"
+      >
+        <h1>{{ movie.title }}</h1>
+        <img :src="`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`" alt="">
+      </div>
     </div>
     <!-- ---- -->
   </div>
@@ -35,7 +41,6 @@ export default {
       idx: 0,
       index: 0,
       view_step: 1,
-      count: 0,
       result : [],
       API_URL: this.$store.state.API_URL,
       gerne_cnt: 0,
@@ -56,11 +61,6 @@ export default {
     } 
   },
   methods: {
-    click(answer) {
-      this.getCount(answer).then({
-
-      })
-    },
     getCount(answer) { // count 개수 반환(filter_list와 함께)
       const question = this.questions[this.index]
       // console.log(this.questions[this.index].answers)
@@ -87,7 +87,38 @@ export default {
         },
       })
       .then((res) => {
-        this.count = res.data.count
+        const count = JSON.parse(res.data).count
+        console.log(`count : ${count}`)
+        console.log(this.result)
+        if (count > 5) {
+          console.log(this.index)
+          this.index ++
+        } else if (count == 0) {
+          this.filter_list.pop()
+          this.index ++
+        } else {
+          this.view_step = 2
+          console.log('count')
+          console.log(count)
+          // getResult 동기 처리
+          axios({
+            method: 'POST',
+            url: `${this.API_URL}/api/v1/result/`,
+            header: {
+              Authorization: `Token ${this.$store.state.token}`
+            },
+            data: {
+              filter_list: this.filter_list,
+            },
+          })
+          .then((res) => {
+            this.result = res.data
+            this.view_step = 2
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        } 
       })
 
       .catch((err) => {
@@ -96,8 +127,8 @@ export default {
     },
     GetResult() { // 추천 영화 반환
       console.log(this.filter_list)
-      return axios({
-        method: 'POST', 
+      axios({
+        method: 'POST',
         url: `${this.API_URL}/api/v1/result/`,
         header: {
           Authorization: `Token ${this.$store.state.token}`
@@ -119,8 +150,6 @@ export default {
       this.$router.push({name: 'detail', params: {movie_id}})
     },
     FindSimilar(movie_id) {  // 비슷한 영화 추천
-      // console.log('findsimilar')
-      // console.log(movie_id)
       const API_URL = `https://api.themoviedb.org/3/movie/${movie_id}/similar`
       const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
       axios.get(API_URL, {
@@ -130,7 +159,7 @@ export default {
             page: 1,
         }
       }).then((res) => {
-        // console.log("비슷한영화 가져옴")
+        // 비슷한영화 가져옴
         console.log(res.data.results)
         this.result = res.data.results
       }).catch((error) => {
