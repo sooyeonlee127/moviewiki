@@ -3,19 +3,60 @@
     <!-- Slider component -->
     <slider ref="slider" :options="options">
         <!-- slideritem -->
-        <slideritem class="slideritem">
-          <button>
-            More detail
-            <div></div>
-          </button>
-          <div class="movie_info">
-            <span>32K+</span>
-            <span>20K+</span>
-            <span>10K+</span>
+        <slideritem>
+          <div class="slider_content">
+            <caption>
+              Lorem ipsum <br>dolor sit.
+            </caption>
+            <p>
+              <button>
+                Trailer
+              </button>
+              <button>
+                More detail
+              </button>
+            </p>
+            <table class="movie_info">
+              <tr>
+                <td>32K+</td>
+                <td>20K+</td>
+                <td>10K+</td>
+              </tr>
+              <tr>
+                <td>Reviews</td>
+                <td>Popularity</td>
+                <td>Likes</td>
+              </tr>
+            </table>
           </div>
           <img src="https://www.pngmart.com/files/21/Actor-PNG-Isolated-File.png" style="width: 300px" alt="">
         </slideritem>
-        <slideritem class="slideritem">
+        <slideritem>
+          <div class="slider_content">
+            <caption>
+              Lorem ipsum <br>dolor sit.
+            </caption>
+            <p>
+              <button>
+                Trailer
+              </button>
+              <button>
+                More detail
+              </button>
+            </p>
+            <table class="movie_info">
+              <tr>
+                <td>32K+</td>
+                <td>20K+</td>
+                <td>10K+</td>
+              </tr>
+              <tr>
+                <td>Reviews</td>
+                <td>Popularity</td>
+                <td>Likes</td>
+              </tr>
+            </table>
+          </div>
           <img src="https://www.pngall.com/wp-content/uploads/4/Standing-Jason-Statham-PNG.png" style="width: 300px" alt="">
         </slideritem>
         <!-- Customizable loading indicator -->
@@ -31,10 +72,15 @@ import { slider, slideritem } from 'vue-concise-slider'
     data() {
       return {
         options: {
-          currentPage: 0
+          currentPage: 0,
+          thresholdDistance: 500,
+          thresholdTime: 100,
+          pagination: true,
+          speed: 1500,
+          loop: true,
+          autoplay:7000,
         }
       }
-        
     },
     components: {
       slider,
@@ -54,20 +100,85 @@ import { slider, slideritem } from 'vue-concise-slider'
 .slider {
   width: 100%;
   margin: 20px auto;
-  height: 700px
+  height: 80vh;
+  background: black;
 }
-.slideritem > img {
+
+.slider_content {
+  height: 100%;;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  margin-right: 50px;
+}
+
+.slider_content > caption {
+  line-height: 60px;
+  font-size: 60px;
+  margin-bottom: 70px;
+  color: white;
+  font-weight: 700;
+}
+
+.slider_content > img {
   margin-left: 30px;
 }
-.slideritem button {
-  border-radius: 10px;
+
+
+.slider_content button {
   padding: 10px 20px;
-  font-size: 30px;
-  font-weight: 800;
+  box-sizing: border-box;
+  font-size: 25px;
+  font-weight: 700;
+  height: 60px;
+  border: 3px solid rgb(137, 255, 68);
   background-color: rgb(137, 255, 68);
 }
-.movie_info > span {
-  font-size: 30px;
-  margin: 0 15px;
+
+.slider_content button:first-child {
+  margin-right: 30px;
 }
+
+.slider_content button:first-child:hover{
+  border: 3px solid rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+}
+
+.slider_content button:last-child {
+  color: rgb(137, 255, 68);
+  border: 3px solid rgb(137, 255, 68);
+  background: transparent;
+}
+
+.slider_content button:last-child:hover{
+  color: white;
+  border: 3px solid rgb(255, 255, 255);
+}
+
+.slider-pagination-bullet, .slider-pagination-bullet-active{
+  background: rgb(137, 255, 68) !important;
+  padding: 5px;
+}
+
+.movie_info {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.movie_info tr, .movie_info td{
+  padding: 0 30px 0 0;
+  margin: 0;
+  border: none;
+}
+
+.movie_info tr:first-child{
+  font-size: 30px;
+}
+
+.movie_info tr:last-child {
+  opacity: 0.6;
+  font-size: 15px;
+}
+
 </style>

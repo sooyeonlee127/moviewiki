@@ -1,21 +1,19 @@
 <template>
-  <div class="home" :style="myStyle">
+  <div class="home">
     <MoviePoster
       :movies="movies"
     />
-    <br>
-    <br>
-    <MovieList
-      :movies="movies"
-    />
-    <br>
-    <ActorList
-      :actors="actors"
-    />
-    <br>
-    <TrendingList
-      :trending="trending"  
-    />
+    <div class="article">
+      <MovieList
+        :movies="movies"
+      />
+      <TrendingList
+        :trending="trending"  
+      />
+      <ActorList
+        :actors="actors"
+      />
+    </div>
   </div>
 </template>
 
@@ -39,9 +37,6 @@ export default {
     return {
       actors: [],
       trending: [],
-      myStyle: {
-          backgroundColor :"#000" 
-        }
     }
   },
   created() {
@@ -51,6 +46,7 @@ export default {
   },
   methods: {
     getMovies() {
+      console.log("getMovie")
       this.$store.dispatch('getMovies')
     },
     requestActors() {

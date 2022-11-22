@@ -162,17 +162,13 @@ export default new Vuex.Store({
   },
   actions: {
     getMovies(context) {
-      const API_URL = 'https://api.themoviedb.org/3/movie/popular'
-      const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
-
-      axios.get(API_URL, {
-        params: {
-            api_key: API_KEY,
-        }
+      axios({
+        method: 'get',
+        url: `${this.state.API_URL}/api/v1/popular/`,
       })
-        .then((res) => {
-          context.commit('GET_MOVIES', res.data.results)
-        })
+      .then((res) => {
+        context.commit('GET_MOVIES', res.data)
+      })
     },
     SignUp(context, payload) {
       console.log(payload)
