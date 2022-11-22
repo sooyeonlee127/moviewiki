@@ -31,7 +31,6 @@
 
 <script>
 import axios from 'axios'
-const API_URL = "http://127.0.0.1:8000" // django 서버
 
 export default {
   name: 'ChoiceView',
@@ -42,6 +41,7 @@ export default {
       filter_list : [],
       index: 0,
       result : [],
+      API_URL: this.$store.state.API_URL
     }
   },
   computed: {
@@ -71,7 +71,7 @@ export default {
       this.filter_list.push(tmp)
       axios({
         method: 'POST',
-        url: `${API_URL}/api/v1/count/`,
+        url: `${this.API_URL}/api/v1/count/`,
         header: {
           Authorization: `Token ${this.$store.state.token}`
         },
@@ -114,7 +114,7 @@ export default {
       console.log(this.filter_list)
       axios({
         method: 'POST',
-        url: `${API_URL}/api/v1/result/`,
+        url: `${this.API_URL}/api/v1/result/`,
         header: {
           Authorization: `Token ${this.$store.state.token}`
         },

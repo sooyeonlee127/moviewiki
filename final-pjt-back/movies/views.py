@@ -3,13 +3,12 @@ from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import SearchMovieSerializer, CommentSerializer
+# from django.views.decorators.http import require_POST
+from .serializers import SearchMovieSerializer, CommentSerializer, MovieSerializer
 from .models import Movie, Comment
-from .models import Movie
 import json # json 파일 파싱용
 
 
@@ -19,19 +18,19 @@ def get_movieList_popular(request): # main 페이지
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
         serializer = SearchMovieSerializer(movies, many=True)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data, safe=False)
 
 
 @api_view(['GET'])
-def get_movieList_popular_detail(request, movie_id):
+def get_movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     if request.method == 'GET':
-        serializer = SearchMovieSerializer(movie)
-        return Response(serializer.data)
+        serializer = MovieSerializer(movie)
+        return JsonResponse(serializer.data, safe=False)
 
 
 def filter_movie(filter_list):
-    # print(filter_list)
+     # print(filter_list)
     q = Q()
     for item in filter_list:
         print(item)
@@ -81,10 +80,11 @@ def search_movie_get_result(request):
 # review 관련 view
 @api_view(['POST'])
 def comment_create(request, movie_id):
+    rating = request.data['rating']
     movie = get_object_or_404(Movie, id=movie_id)
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
+        serializer.save(movie=movie, user=request.user, rating=rating)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -94,3 +94,34 @@ def comment_list(request):
         comments = get_list_or_404(Comment)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+
+
+@api_view(['GET', 'DELETE', 'PUT'])
+def comment_detail(request, comment_pk):
+    # comment = Comment.objects.get(pk=comment_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
+
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+
+
+@api_view(['POST'])
+def create_movie(request):
+    serializer = SearchMovieSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    

@@ -7,9 +7,10 @@ urlpatterns = [
     path('popular/', views.get_movieList_popular, name="popular"),
     path('count/', views.search_movie_get_count, name="count"),
     path('result/', views.search_movie_get_result, name="result"),
-    path('popular/<int:movie_id>/', views.get_movieList_popular_detail),
-    path('popular/<int:movie_id>/comments/', views.comment_create),
-    path('comments/', views.comment_list),
+    path('movies/<int:movie_id>/comment_create/', views.comment_create),
+    path('movies/<int:movie_id>/', views.get_movie_detail),
+    path('movies/comments/<int:comment_pk>/', views.comment_detail),
+    path('movies/comments/', views.comment_list),
 ]
 
 

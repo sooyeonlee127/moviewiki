@@ -1,18 +1,5 @@
 <template>
   <div>
-    <!-- <div class="mt-4">
-      <b-card 
-      :img-src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" 
-      style="width: 10rem; height:15rem;"
-      img-art="card image" img-right
-      >
-        <b-card-text>
-        {{ movie.title }}
-          개봉일: {{ movie.release_date}}
-          {{ movie.genre_ids }}
-        </b-card-text>
-      </b-card>
-    </div> -->
     <div>
       <b-card
         overlay
@@ -29,42 +16,48 @@
         </b-button>
       </b-card>
     </div>
-    <ReviewCreate/>
+    <ReviewList 
+    :reviews="movie.comment_set"
+    :movie_id="movie.id"
+    />
     <hr>
   </div>
 </template>
 
 <script>
-import ReviewCreate from '@/components/ReviewCreate.vue'
-
+import ReviewList from '../components/ReviewList.vue'
+import axios from 'axios'
 
 export default {
   name: 'DetailView',
   data() {
     return {
-      movie: null
+      movie: [],
+      API_URL: this.$store.state.API_URL,
     }
   },
   components: {
-    ReviewCreate,
-  },
-  computed: {
-    movies() {
-      return this.$store.state.movies
-    }
+    ReviewList,
   },
   created() {
     this.getMovieById(this.$route.params.movie_id)
   },
   methods: {
-    getMovieById() {
-      const id = this.$route.params.movie_id
-      for (const movie of this.movies) {
-        if (movie.id === Number(id)) {
-          this.movie = movie
-          break
-        }
-      }
+    getMovieById(movie_id) {
+      axios({
+        method: 'GET',
+        url: `${this.API_URL}/api/v1/movies/${movie_id}/`,
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        this.movie = res.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     }
   },
 }
