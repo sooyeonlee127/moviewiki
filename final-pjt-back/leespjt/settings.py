@@ -198,7 +198,9 @@ AUTH_USER_MODEL = 'accounts.User'
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.RegisterSerializer',
 }
-
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.RegisterSerializer',
+}
 
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
