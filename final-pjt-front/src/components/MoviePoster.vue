@@ -100,7 +100,8 @@ import { slider, slideritem } from 'vue-concise-slider'
 .slider {
   width: 100%;
   margin: 20px auto;
-  height: 80vh;
+  height: 60vh;
+  min-height: 500px;
   background: black;
 }
 

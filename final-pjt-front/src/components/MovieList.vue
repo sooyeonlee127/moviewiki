@@ -9,10 +9,10 @@
         :key="movie.id"
         :movie="movie">
         <img v-if="movie.adult==false" @click="SelectedMovie(movie.id)" :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" img-alt="Card Image" alt="">
-      </slideritem>
-      <div slot="loading">영화를 불러오고 있어요</div>
-    </slider>
-    <button @click="slideNext" class="slider_btn" id="right"><img src="@/assets/right-arrow.png" alt=""></button>
+        </slideritem>
+        <div slot="loading">영화를 불러오고 있어요</div>
+      </slider>
+      <button @click="slideNext" class="slider_btn" id="right"><img src="@/assets/right-arrow.png" alt=""></button>
     </div>
   </div>
 </template>
@@ -68,6 +68,11 @@ export default {
 .slider_btn {
   background: transparent;
 }
+
+.slider_btn:hover {
+  opacity: 0.5;
+}
+
 .slider_btn img {
   width: 30px;
 }
@@ -77,7 +82,18 @@ export default {
   margin-right: 2%;
   cursor: pointer;
 }
+
 .movie_item img {
   width: 100%;
+  transition: 0.1s;
+}
+
+.movie_item img:hover {
+  width: 110%;
+}
+
+.movie_item img:active {
+  opacity: .5;
+  width: 99%;
 }
 </style>

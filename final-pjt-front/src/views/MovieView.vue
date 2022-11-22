@@ -4,15 +4,15 @@
       :movies="movies"
     />
     <div class="article">
-      <MovieList
-        :movies="movies"
-      />
-      <TrendingList
-        :trending="trending"  
-      />
-      <ActorList
-        :actors="actors"
-      />
+      <section>
+        <MovieList :movies="movies"/>
+      </section>
+      <section>
+        <TrendingList :trending="trending"/>
+      </section>
+      <section>
+        <ActorList :actors="actors"/>
+      </section>
     </div>
   </div>
 </template>
@@ -92,3 +92,10 @@ export default {
 }
 </script>
  
+<style>
+
+section {
+  margin: 50px 0;
+}
+
+</style>
