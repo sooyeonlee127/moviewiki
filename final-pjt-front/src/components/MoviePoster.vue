@@ -1,63 +1,45 @@
 <template>
-
- <!-- {{ movies[0].title }}
- :src="`https://image.tmdb.org/t/p/original/${ movies[2].backdrop_path }`" -->
-  <div>
-    <b-carousel
-      id="carousel-1"
-      :interval="4000"
-      controls
-      indicators
-      fade
-      img-width="1024"
-      img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-    >
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        caption="First slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://picsum.photos/1024/480/?image=52"
-      ></b-carousel-slide>
-
-      <!-- Slides with image only -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
-
-      <!-- <b-carousel-slide>
-        <template #img>
-          <img
-            class="d-block img-fluid w-100"
-            width="1024"
-            height="480"
-            src="https://picsum.photos/1024/480/?image=55"
-            alt="image slot"
-          >
-        </template>
-      </b-carousel-slide> -->
-
-      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-      <!-- <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
-          a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
-        </p>
-      </b-carousel-slide> -->
-    </b-carousel>
-
+  <div class="slider" >
+    <!-- Slider component -->
+    <slider ref="slider" :options="options">
+        <!-- slideritem -->
+        <slideritem class="slideritem">
+          <button>
+            More detail
+            <div></div>
+          </button>
+          <div class="movie_info">
+            <span>32K+</span>
+            <span>20K+</span>
+            <span>10K+</span>
+          </div>
+          <img src="https://www.pngmart.com/files/21/Actor-PNG-Isolated-File.png" style="width: 300px" alt="">
+        </slideritem>
+        <slideritem class="slideritem">
+          <img src="https://www.pngall.com/wp-content/uploads/4/Standing-Jason-Statham-PNG.png" style="width: 300px" alt="">
+        </slideritem>
+        <!-- Customizable loading indicator -->
+        <div slot="loading">loading...</div>
+    </slider>
   </div>
-
-  
 </template>
 
 <script>
+import { slider, slideritem } from 'vue-concise-slider'
   export default {
     name: 'MoviePoster',
     data() {
       return {
-
+        options: {
+          currentPage: 0
+        }
       }
+        
     },
-    
+    components: {
+      slider,
+      slideritem
+    },
     props: {
       movies: Array,
     },
@@ -69,5 +51,23 @@
 </script>
 
 <style>
-
+.slider {
+  width: 100%;
+  margin: 20px auto;
+  height: 700px
+}
+.slideritem > img {
+  margin-left: 30px;
+}
+.slideritem button {
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 30px;
+  font-weight: 800;
+  background-color: rgb(137, 255, 68);
+}
+.movie_info > span {
+  font-size: 30px;
+  margin: 0 15px;
+}
 </style>
