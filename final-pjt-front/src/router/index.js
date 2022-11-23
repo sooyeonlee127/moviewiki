@@ -6,6 +6,7 @@ import ChoiceView from '@/views/ChoiceView'
 import LogInView from '@/views/LogInView'
 import SignUpView from '@/views/SignUpView'
 import ProfileView from '@/views/ProfileView'
+import SearchView from '@/views/SearchView'
 
 
 Vue.use(VueRouter)
@@ -35,6 +36,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
+  }, 
+  {
+    path: '/search/:movie_title',
+    name: 'search',
+    component: SearchView
   }, 
   {
     path: '/movies/:movie_id',

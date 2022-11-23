@@ -92,11 +92,11 @@ export default {
             this.index ++
           }
         } else if(this.index == 14) { // 1) 모든 질문이 소진 되었을 때,
+
           if( count == 0 ) {
             this.filter_list.pop() 
           } // (1) 만약 남은 영화가 없다면,
             // 마지막 필터 제거하고 다음단계로 진행(결과 받아오기)
-            
             // getResult 동기 처리
             axios({
               method: 'POST',

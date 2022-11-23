@@ -8,7 +8,7 @@
           <router-link class="menu" to="/">Home</router-link>
           <router-link class="menu" to="/choice">Explore</router-link>
           <form @submit.prevent="" style="display: inline-block">
-            <input class="searchBar" type="text" placeholder="search" @keyup.enter="searchMovie">
+            <input class="searchBar" type="text" placeholder="search" v-model="movieTitle" @keyup.enter="searchMovie">
           </form>
         </div>
         <div class="accounts">
@@ -31,7 +31,7 @@ export default {
   name: 'App',
   data() {
     return {
-
+      movieTitle: null,
     }
   },
   methods:{
@@ -40,7 +40,8 @@ export default {
       this.$router.push({ name: 'movie'})
     },
     searchMovie() {
-      console.log("dd")
+      console.log(this.movieTitle)
+      this.$router.push({ name: 'search', params: { movie_title: this.movieTitle } })
     }
   },
   computed: {
