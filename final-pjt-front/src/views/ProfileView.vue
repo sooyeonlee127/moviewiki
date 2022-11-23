@@ -3,19 +3,25 @@
     <div class="myPage">
       <h1>{{user.nickname}}님의 페이지</h1>
       
-      <section>
+      <form @submit.prevent="changeProfile">
         <div>
           <label for="nickname">닉네임</label>
           <input id="nickname" class="inputgroup" type="text" disabled="true" v-model="user.nickname" >
         </div>
         <div>
           <label for="email">이메일</label>
-          <input id="email" class="inputgroup" type="text" disabled="true" :value="email">
+          <input id="email" class="inputgroup" type="text" disabled="true" v-model="user.email">
         </div>
-      </section>
-      <button v-if="!change_profile" @click="AbleProfileInput">회원정보 수정</button>
-      <button v-else @click="changeProfile">수정 완료</button>
-      <button v-if="!change_password" @click="AblePasswordInput">비밀번호 변경</button>
+        <button v-if="!change_profile" @click="ProfileInputToggle">회원정보 수정</button>
+        <input type="submit" v-else value="수정 완료">
+      </form>
+
+      <button v-if="!change_password" @click="PasswordInputToggle">비밀번호 변경</button>
+      <form @submit.prevent="changePassword">
+        <input id="pw_input" class="inputgroup" type="password" v-model="new_password1">
+        <input id="pw_input" class="inputgroup" type="password" v-model="new_password2">
+        <input type="submit" value="비밀번호 변경 제출">
+      </form>
       <section>
         <h3>내가 좋아하는 콘텐츠</h3>
         
@@ -43,12 +49,13 @@ export default {
   },
   data() {
     return {
-      email: null,
       user: {
         email: null,
         nickname: null,
-        profile_image: '',
+        profile_image: null,
       },
+      new_password1: null,
+      new_password2: null,
       API_URL: this.$store.state.API_URL,
       change_profile: false,
       change_password: false,
@@ -68,7 +75,7 @@ export default {
         method: 'get',
         url: `${this.API_URL}/accounts/user/`,
         headers: {
-          Authorization: `Token ${this.$store.state.token}`
+          'Authorization': `Token ${this.$store.state.token}`
         },
       })
       .then((res) => {
@@ -80,38 +87,41 @@ export default {
         console.log(error)
       })
     },
-    AbleProfileInput() {
+    ProfileInputToggle() {
       const input1 = document.querySelector('#nickname')
       input1.classList.toggle('active')
       input1.disabled = false
-      this.change_profile = true
+      if (this.change_profile) {
+        this.change_profile = false
+      } else {
+        this.change_profile = true
+      }
     },
-    AblePasswordInput() {
-      const input1 = document.querySelector('#nickname')
-      const input2 = document.querySelector('#email')
-      input1.classList.toggle('active')
-      input2.classList.toggle('active')
-      input1.disabled = false
-      input2.disabled = false
-      this.change_password = true
+    PasswordInputToggle() {
+      const input = document.querySelector('#pw_input')
+      input.classList.toggle('active')
+      input.disabled = false
+      if (this.change_password) {
+        this.change_password = false
+      } else {
+        this.change_password = true
+      }
     },
     changeProfile() {
-      console.log(this.user.nickname)
       axios({
-        method: 'PUT',
-        url: `${this.API_URL}/accounts/user/update/`,
+        method: 'put',
+        url: `${this.API_URL}/accounts/user/`,
         headers: {
-          Authorization: `Token ${this.$store.state.token}`
+          'Authorization': `Token ${this.$store.state.token}`,
         },
         data: {
-          email: this.email,
-          nickname: this.user.nickname,
-          profile_image: this.user.profile_image,
-        }
+          'nickname': this.user.nickname,
+          'profile_image': this.user.profile_image,
+        },
       })
       .then((res) => {
         console.log(res)
-        this.change_profile = false
+        this.ProfileInputToggle()
       })
       .catch((error) => {
         console.log(error)
@@ -119,15 +129,19 @@ export default {
     },
     changePassword() {
       axios({
-        method: 'put',
-        url: `${this.API_URL}/accounts/user/`,
+        method: 'post',
+        url: `${this.API_URL}/accounts/password/change/`,
         headers: {
-          Authorization: `Token ${this.$store.state.token}`
+          'Authorization': `Token ${this.$store.state.token}`
         },
+        data: {
+          'new_password1': this.new_password1,
+          'new_password2': this.new_password2,
+        }
       })
       .then((res) => {
         console.log(res)
-        this.change_password = false
+        this.PasswordInputToggle()
       })
       .catch((error) => {
         console.log(error)
@@ -162,12 +176,12 @@ export default {
               0 0 100px rgba(137, 255, 68, 0.3);
 }
 
-.myPage section {
+.myPage form {
   width: 100%;
   text-align: left;
 }
 
-.myPage section label {
+.myPage form label {
   width: 100%;
   margin: 15px 0 3px 0;
 }

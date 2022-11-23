@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
+# from django.contrib.auth.models import User
+
+
 class UserManager(BaseUserManager):
     def create_user(self, email, profile_image, nickname, password=None):
         if email is None:
@@ -51,3 +54,11 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    
+    
+
+# class UserProfile(models.Model):
+#     user = models.OneToOneField(User, related_name='userprofile', on_delete=models.CASCADE)
+#     # custom fields for user
+#     nickname = models.CharField(max_length=15)
+#     profile_image = models.ImageField(null = True)
