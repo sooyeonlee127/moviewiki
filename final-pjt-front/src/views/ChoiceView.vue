@@ -27,7 +27,7 @@
       </div>
       <div v-else class="results row">
         <div class="wrap_movie col-2"
-        v-for="(movie, idx) in result"
+        v-for="(movie, idx) in suggest_movies"
         :key="`movie_${idx}`"
         >
           <a @click="DetailMovie(movie.id)">
@@ -59,6 +59,12 @@ export default {
       //   title: null,
       // },
       result: [
+        {
+          title: null,
+          poster_path: null,
+        }
+      ],
+      suggest_movies: [
         {
           title: null,
           poster_path: null,
@@ -151,7 +157,7 @@ export default {
             method: 'POST',
             url: `${this.API_URL}/api/v1/result/`,
             header: {
-              Authorization: `Token ${this.$store.state.token}`
+              'Authorization': `Token ${this.$store.state.token}`
             },
             data: {
               filter_list: this.filter_list,
@@ -194,7 +200,6 @@ export default {
     //     })
     // },
     DetailMovie(movie_id) { // 마지막 추천 영화 클릭시 디테일 페이지로 연결
-      // console.log(movie_id)
       this.$router.push({name: 'detail', params: {movie_id}})
     },
     FindSimilar(movie_id) {  // 비슷한 영화 추천
@@ -207,9 +212,7 @@ export default {
             page: 1,
         }
       }).then((res) => {
-        // 비슷한영화 가져옴
-        console.log(res.data.results)
-        this.result = res.data.results
+        this.suggest_movies = res.data.results
       }).catch((error) => {
           console.error(error)
       })

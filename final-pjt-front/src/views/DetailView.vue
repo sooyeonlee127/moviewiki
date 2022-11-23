@@ -95,12 +95,18 @@ export default {
   data() {
     return {
       movie: {
-        title: null,
-        vote_average: null,
-        profile_path: null,
-        poster_path: null,
-        backdrop_path: null,
+        id: null,
+        adult: null,
+        original_language: null,
+        original_title: null,
+        overview: null,
+        popularity: null,
         release_date: null,
+        title: null,
+        video: null,
+        vote_average: null,
+        vote_count: null,
+        genre_ids: null,
       },
       API_URL: this.$store.state.API_URL,
       credit: [
@@ -117,7 +123,6 @@ export default {
   created() {
     this.getMovieById(this.$route.params.movie_id)
     this.requestCredit(this.$route.params.movie_id)
-
   },
   methods: {
     getMovieById(movie_id) {
@@ -129,10 +134,44 @@ export default {
         console.log(res)
         this.movie = res.data
       })
-      .catch((error) => {
-        console.log(error)
+      .catch(() => {
+        this.createMovie(movie_id)
       })
     },
+    createMovie(movie_id) {
+      const API_URL = `https://api.themoviedb.org/3/movie/${movie_id}`
+      const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
+      axios({
+        method: 'GET',
+        url: API_URL,
+        params: {
+          'api_key': API_KEY,
+        }
+      })
+      .then((res) => {
+        console.log(res.data)
+        this.movie=res.data
+        axios({
+          method: 'POST',
+          url: `${this.API_URL}/api/v1/movies/create/`,
+          headers: {
+            'Authorization': `Token ${this.$store.state.token}`
+          },
+          data: {
+            'movie': this.movie
+          },
+        })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }, 
     requestCredit(movie_id) {
       const API_URL = `https://api.themoviedb.org/3/movie/${movie_id}/credits`
       const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
