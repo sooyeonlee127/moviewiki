@@ -43,16 +43,16 @@ export default {
     this.getMovies()
     this.requestActors()
     this.requestTrending()
-    this.getBestMovies()
+    // this.getBestMovies()
   },
   methods: {
     getMovies() {
       console.log("getMovie")
       this.$store.dispatch('getMovies')
     },
-    getBestMovies() {
-      this.$store.dispatch('getBestMovies')
-    },
+    // getBestMovies() {
+    //   this.$store.dispatch('getBestMovies')
+    // },
     requestActors() {
       const API_URL = 'https://api.themoviedb.org/3/person/popular'
       const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
@@ -92,9 +92,9 @@ export default {
     movies() {
       return this.$store.state.movies
     },
-    best_movies() {
-      return this.$store.state.best_movies
-    }
+    // best_movies() {
+    //   return this.$store.state.best_movies
+    // }
   },
 }
 </script>

@@ -13,6 +13,7 @@ urlpatterns = [
     path('movies/comments/', views.comment_list),
     path('movies/create/', views.create_movie),
     path('movies/search/<str:keyword>/', views.search_movie),
+    # path('movies/comments/<int:user_id>/', views.comment_list),
     # path('movies/best/', views.get_movielist_best_result),
 ]
 

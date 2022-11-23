@@ -60,6 +60,9 @@ export default {
 body {
   margin: 0;
 }
+a {
+  text-decoration: none !important;
+}
 .wrap_container {
   background: black;
   margin: 0;
@@ -151,6 +154,7 @@ header {
   font-weight: bold;
   background-color: rgb(137, 255, 68);
   transition: 0.2s;
+  border: none;
 }
 
 .accounts .accounts_btn:hover {

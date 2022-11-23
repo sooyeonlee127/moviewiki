@@ -94,9 +94,20 @@ export default {
   name: 'DetailView',
   data() {
     return {
-      movie: [],
+      movie: {
+        title: null,
+        vote_average: null,
+        profile_path: null,
+        poster_path: null,
+        backdrop_path: null,
+        release_date: null,
+      },
       API_URL: this.$store.state.API_URL,
-      credit: [],
+      credit: [
+        {
+          name: null,
+        }
+      ],
       video: '',
     }
   },

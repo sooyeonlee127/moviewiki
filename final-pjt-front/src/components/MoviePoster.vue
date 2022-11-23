@@ -1,7 +1,7 @@
 <template>
-  <div class="slider" >
-    <!-- Slider component -->
-    <slider ref="slider" :options="options">
+    <div class="slider" >
+      <!-- Slider component -->
+      <slider ref="slider" :options="options">
         <!-- slideritem -->
         <slideritem>
           <div class="slider_content">
@@ -9,8 +9,12 @@
               Lorem ipsum <br>dolor sit.
             </caption>
             <p>
-              <button>Trailer</button>
-              <button>More detail</button>
+              <button @click="getTrailer('아이언맨')">
+                Trailer
+              </button>
+              <button>
+                More detail
+              </button>
             </p>
             <table class="movie_info">
               <tr>
@@ -33,7 +37,7 @@
               Lorem ipsum <br>dolor sit.
             </caption>
             <p>
-              <button>
+              <button id="clickbtn" @click="getTrailer('누구?')">
                 Trailer
               </button>
               <button>
@@ -73,32 +77,44 @@ import { slider, slideritem } from 'vue-concise-slider'
           thresholdTime: 100,
           pagination: true,
           speed: 1500,
-          loop: true,
+          // loop: true,
           autoplay:7000,
+
+
         }
       }
     },
     components: {
       slider,
-      slideritem
+      slideritem,
     },
     props: {
       movies: Array,
     },
     methods: {
-    },
-    computed: {
+      getTrailer(movie_title) {
+        console.log('버튼 눌림')
+        this.$router.push({name: 'trailer', params: {movie_title}})
+      }
+      }
+
     }
-  }
+  
 </script>
 
 <style>
+#clickbtn {
+ position: relative;
+ z-index: 99;
+}
+
 .slider {
   width: 100%;
   margin: 20px auto;
   height: 60vh;
   min-height: 500px;
   background: black;
+
 }
 
 .slider_content {
