@@ -23,7 +23,7 @@ import { slider, slideritem } from 'vue-concise-slider'
 export default {
   name: 'MovieList',
   props: {
-    best_movies: Array
+    movies: Array
   },
   data () {
     return {

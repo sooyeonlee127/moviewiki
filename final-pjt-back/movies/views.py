@@ -13,7 +13,7 @@ import json # json 파일 파싱용
 
 
 # Create your views here.
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def get_movieList_popular(request): # main 페이지
     if request.method == 'GET':
         movies = get_list_or_404(Movie.objects.order_by('-popularity')[:30]) # 인기 내림차순 정렬 후 30개만 가져오기

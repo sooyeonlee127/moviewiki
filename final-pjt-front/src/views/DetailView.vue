@@ -1,24 +1,18 @@
 <template>
   <div class="container">
   <div class="element" :style="{ backgroundImage: 'url(https://image.tmdb.org/t/p/original/' + movie.backdrop_path + ')' }">
-    <div class="font">
+    <div class="content">
       <img class="child box scale" 
         :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" 
          align="right" 
       >
-      <div id="review">
-        <ReviewList
-        :reviews="movie.comment_set"
-        :movie_id="movie.id"
-        />
-      </div>
-      <b-icon-arrow-up></b-icon-arrow-up>
 
-
+      
+      
       <h1>
         {{ movie.title }}
       </h1>
-
+      
       <p id="text" align="left">
         <span class="material-symbols-outlined"> closed_caption </span>
         {{ movie.release_date.slice(0,4)}}
@@ -26,8 +20,22 @@
       <p id="text"> 
         {{ movie.overview }}
       </p>
+      <p>
+        <b-avatar
+        :src="`https://image.tmdb.org/t/p/original/${ credit[0].profile_path }`"     
+          size="120px"
+        >
+        </b-avatar>
+        {{ credit[0].name}}
+      </p>
+      <div id="review">
+        <ReviewList
+        :reviews="movie.comment_set"
+        :movie_id="movie.id"
+        />
+      </div>
     </div>
-
+    
   </div>
 </div>
 </template>
@@ -43,6 +51,7 @@ export default {
     return {
       movie: [],
       API_URL: this.$store.state.API_URL,
+      credit: [],
     }
   },
   components: {
@@ -50,15 +59,13 @@ export default {
   },
   created() {
     this.getMovieById(this.$route.params.movie_id)
+    this.requestCredit(this.$route.params.movie_id)
   },
   methods: {
     getMovieById(movie_id) {
       axios({
         method: 'GET',
         url: `${this.API_URL}/api/v1/movies/${movie_id}/`,
-        headers: {
-          Authorization: `Token ${this.$store.state.token}`
-        },
       })
       .then((res) => {
         console.log(res)
@@ -66,6 +73,25 @@ export default {
       })
       .catch((error) => {
         console.log(error)
+      })
+    },
+    requestCredit(movie_id) {
+      const API_URL = `https://api.themoviedb.org/3/movie/${movie_id}/credits`
+      const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
+
+      axios.get(API_URL, {
+        params: {
+            api_key: API_KEY,
+            language: 'ko',
+        }
+      }).then((response) => {
+        const credit = response.data.cast
+        this.credit = credit
+        console.log('credit')
+        console.log(this.credit)
+
+      }).catch((error) => {
+          console.error(error)
       })
     }
   },
@@ -86,95 +112,103 @@ export default {
 
 
 #review {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  z-index: 1;
   top: 500px;
   left: 50px;
 }
 
+.container {
+  height: 100%;
+}
 
-/* #text{
->>>>>>> ed0f997ef949bb5380d4e066d6a7499144639ab3
+
+#text{
   position: relative;
   z-index: 2;
-  top: 60px;
-  left: 50px;
-<<<<<<< HEAD
+  top: 200px;
+  left: 5px;
+  font-size: 1vw;
+  color:#fff;
+  text-shadow: 1px 1px 2px rgb(0, 0, 0), 0 0 1em rgb(15, 14, 14), 0 0 0.2em rgb(0, 0, 0);
+  z-index: 2;
+
 }
 
-=======
-} */
-/* 
->>>>>>> ed0f997ef949bb5380d4e066d6a7499144639ab3
+
 body {
   font-family: 'Nanum Gothic', sans-serif;
-  -webkit-font-smoothing: antialiassed;
-  -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+}
 
-<<<<<<< HEAD
-}
-=======
-} */
-.font {
+.content {
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
-.font h1 {
-  font-size: 8vw;
+.content h1 {
+  font-size: 3vw;
   color: #fff;
   position: relative;
-  top: -20px;
+  font-weight: bold;
+  top: 200px;
   text-shadow: 1px 1px 2px rgb(0, 0, 0), 0 0 1em rgb(15, 14, 14), 0 0 0.2em rgb(0, 0, 0);
 }
-
-
-/* ---------------------- */
 
 
 .element {
   height: 100vh;
   position: relative;
   background-size: cover;
-  top: 0px;
+  top: 30px;
   left: 0px;
   right: 0px;
   bottom: 0px;
-
+  z-index: 0;
 }
 
 .element::before {
-  height: 100vh;
+  height: 100%;
+  width: 50%;
   content: "";
-  opacity: 0.5;
   position: absolute;
   top: 0px;
   left: 0px;
-  right: 0px;
   bottom: 0px;
-
-  /* background: linear-gradient(
-            to left,
-            rgba(20, 20, 20, 0) 15%,
-            rgba(20, 20, 20, 0.25) 25%,
-            rgba(20, 20, 20, 0.5) 50%,
-            rgba(20, 20, 20, 0.75) 75%,*/
-
-  background-color: #000;
+  background: linear-gradient(
+    to right, rgb(0, 0, 0),transparent
+  );
+  /* background-color: #000; */
+  z-index: -1;
 }
 
+
+.element::after {
+  height: 100%;
+  width: 50%;
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: linear-gradient(
+    to left, rgb(0, 0, 0),transparent
+  );
+  /* background-color: #000; */
+  z-index: -1;
+}
+
+
 .box {
-    margin: 60px;
+    margin-top: 100px;
+    margin-right: 60px;
     width: 300px;
     height: 450px;
     line-height: 500px;
     color: white;
-    text-align: center;
     border-radius: 6px;
     animation-iteration-count: infinite;
-    box-shadow: 10px 10px 5px rgba(245, 245, 245, 0.102);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.102);
+    z-index: 2;
 
   }
   /* .original {
@@ -194,7 +228,7 @@ body {
     transition: transform 1s linear;
     transform: scale(1);
   }
-  /* --------------아이콘 */
+
   .material-symbols-outlined {
     font-variation-settings:
     'FILL' 0,

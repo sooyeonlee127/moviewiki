@@ -1,9 +1,9 @@
 <template>
   <div>
-    <p>{{ review.user }}</p>
+    <p>작성자: {{ review.user }}</p>
     <p>
-      <span>{{ review.content }}</span> | 
-      <span>{{ review.created_at }}</span> |
+      <span>리뷰: {{ review.content }}</span> | 
+      <span>작성일: {{ review.created_at }}</span> |
       <span>{{ review.rating }}점</span>
     </p>
     
