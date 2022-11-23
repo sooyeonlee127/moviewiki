@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
   <div class="element" :style="{ backgroundImage: 'url(https://image.tmdb.org/t/p/original/' + movie.backdrop_path + ')' }">
     <div class="font">
       <img class="child box scale" 
@@ -28,6 +29,7 @@
     </div>
 
   </div>
+</div>
 </template>
 
 <script>
@@ -90,13 +92,20 @@ export default {
   left: 50px;
 }
 
-#text{
+
+/* #text{
+>>>>>>> ed0f997ef949bb5380d4e066d6a7499144639ab3
   position: relative;
   z-index: 2;
   top: 60px;
   left: 50px;
+<<<<<<< HEAD
 }
 
+=======
+} */
+/* 
+>>>>>>> ed0f997ef949bb5380d4e066d6a7499144639ab3
 body {
   font-family: 'Nanum Gothic', sans-serif;
   -webkit-font-smoothing: antialiassed;
@@ -106,7 +115,10 @@ body {
   justify-content: center;
   height: 100vh;
 
+<<<<<<< HEAD
 }
+=======
+} */
 .font {
   text-align: center;
 }
@@ -122,10 +134,7 @@ body {
 /* ---------------------- */
 
 
-
-
 .element {
-  width: 100vw;
   height: 100vh;
   position: relative;
   background-size: cover;
@@ -137,7 +146,6 @@ body {
 }
 
 .element::before {
-  width: 100vw;
   height: 100vh;
   content: "";
   opacity: 0.5;
