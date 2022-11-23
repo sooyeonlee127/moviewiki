@@ -7,6 +7,9 @@
           <span id="logo" style="font-size: 30px;">LOGO</span>
           <router-link class="menu" to="/">Home</router-link>
           <router-link class="menu" to="/choice">Explore</router-link>
+          <form @submit.prevent="" style="display: inline-block">
+            <input class="searchBar" type="text" placeholder="search" @keyup.enter="searchMovie">
+          </form>
         </div>
         <div class="accounts">
           <router-link v-if="isLogin" to="/profile"><button class="accounts_btn">My page</button></router-link>
@@ -31,6 +34,9 @@ export default {
     logOut() {
       this.$store.state.token = null
       this.$router.push({ name: 'movie'})
+    },
+    searchMovie() {
+      console.log("dd")
     }
   },
   computed: {
@@ -38,6 +44,7 @@ export default {
       return this.$store.getters.isLogin
     }
   },
+
 }
 </script>
 
@@ -88,6 +95,29 @@ header {
 
 .menus .menu:active {
   color: rgb(75, 199, 3);
+}
+
+.menus .searchBar{  
+  transition: 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 0 10px;
+  margin: 10px 0;
+  margin-left: 30px !important;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+  background: transparent;
+  width: 150px;
+  border-radius: 0px;
+}
+
+
+.menus .searchBar:focus {
+  margin: 0;
+  padding: 9px 20px;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 1);
+  width: 200px;
 }
 
 .accounts {

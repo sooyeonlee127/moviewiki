@@ -98,4 +98,43 @@ section {
   margin: 50px 0;
 }
 
+.wrap_slider{
+  width:100%;
+  height:100%;
+  margin:20px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+}
+
+.slider_btn {
+  background: transparent;
+}
+
+.slider_btn:hover {
+  opacity: 0.5;
+}
+
+.slider_btn img {
+  width: 30px;
+}
+
+.movie_item {
+  width: 11.75%;
+  margin-right: 2%;
+  cursor: pointer;
+}
+
+.movie_item img {
+  width: 100%;
+  transition: 0.1s;
+}
+
+.movie_item img:hover {
+  opacity: 0.7;
+}
+
+.movie_item img:active {
+  opacity: 0.5;
+}
 </style>

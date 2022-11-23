@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 style="margin-bottom: -30px">요즘 뜨는 콘텐츠</h3>
+    <h3>요즘 뜨는 콘텐츠</h3>
     <div class="wrap_slider">
       <button @click="slide" class="slider_btn" id="left"><img src="@/assets/left-arrow.png" alt=""></button>
       <slider ref="slider" :options="options">
@@ -56,44 +56,5 @@ export default {
 </script>
 
 <style>
-.wrap_slider{
-  width:100%;
-  margin:20px auto;
-  height:200px;
-  display: flex;
-  flex-direction: row;
-  justify-content:center;
-}
 
-.slider_btn {
-  background: transparent;
-}
-
-.slider_btn:hover {
-  opacity: 0.5;
-}
-
-.slider_btn img {
-  width: 30px;
-}
-
-.movie_item {
-  width: 11.75%;
-  margin-right: 2%;
-  cursor: pointer;
-}
-
-.movie_item img {
-  width: 100%;
-  transition: 0.1s;
-}
-
-.movie_item img:hover {
-  width: 110%;
-}
-
-.movie_item img:active {
-  opacity: .5;
-  width: 99%;
-}
 </style>
