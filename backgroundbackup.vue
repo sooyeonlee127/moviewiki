@@ -1,71 +1,84 @@
 <template>
-  <div class="intro">
-    <div class="original box">
-    <img class="child box scale" src="https://picsum.photos/1024/480/?image=52">
+  <div>
+    <h1>'{{ keyword }}'으로 검색한 결과입니다.</h1>
+      <div class="overflow-auto">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+
+        <p class="mt-3">Current Page: {{ currentPage }}</p>
+        <p v-for="movie in searchmovie"
+          :key="movie.id">
+          <b-table
+            id="my-table"
+            :img-src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`"
+            :title="`${movie.title}`"
+          ></b-table>
+        </p>
+      </div>
+
+    <b-container fluid class="p-4 bg-dark">
+      <b-row>
+        <b-col 
+          v-for="movie in searchmovie"
+          :key="movie.id">
+          <b-img thumbnail fluid :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" >
+          </b-img>
+          {{ movie.title }}
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
-  </div>  
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'DetailView'
-}
+  name: 'SearchView',
+  created() {
+    this.keyword = this.$route.params.movie_title
+    this.SearchMovie(this.keyword)
+  },
+  watch:{
+    $route(){
+      this.keyword = this.$route.params.movie_title
+      this.SearchMovie(this.keyword)}
+    },
+  data() {
+    return {
+      keyword: '',
+      searchmovie: [],
+    }
+  },
+  computed: {
+      rows() {
+        return this.SearchMovie.length
+      }
+  },
+  methods: {
+    SearchMovie(keyword) {
+      axios({
+        method: 'GET',
+        url: `http://127.0.0.1:8000/api/v1/movies/search/${keyword}/`,
+      })
+      .then((res) => {
+        console.log(res)
+        this.searchmovie = res.data
+      })
+      .catch((error) => {
+        console.log('search view의 catch')
+        console.log(error)
+      })},
+
+  }
+  }
 </script>
 
 <style>
-  body{
-      margin:0;
-  }
-  .intro{
-      background:url('https://newevolutiondesigns.com/images/freebies/cool-wallpaper-3.jpg'),linear-gradient(233deg, #e56420, #c22525, #3d9c31, #37bbde);
-      width:100%;
-      height:100vh;
-      background-size:cover;
-      background-blend-mode: hard-light;
-      animation: hue-rotate 3s linear infinite;
-  }
-  @keyframes hue-rotate {
-  from {
-    -webkit-filter: hue-rotate(0);
-    -moz-filter: hue-rotate(0);
-    -ms-filter: hue-rotate(0);
-    filter: hue-rotate(0);
-  }
-  to {
-    -webkit-filter: hue-rotate(360deg);
-    -moz-filter: hue-rotate(360deg);
-    -ms-filter: hue-rotate(360deg);
-    filter: hue-rotate(360deg);
-    }
-  }
-  /* ---------------- */
-  .box {
-    width: 500px;
-    height: 500px;
-    line-height: 500px;
-    color: white;
-    text-align: center;
-    border-radius: 6px;
-    animation-iteration-count: infinite;
-  }
 
-
-  /* .original {
-    margin: 30px;
-    border: 1px dashed #cecfd5;
-    background: #eaeaed;
-    float: left;
-  } */
-  .child {
-    background: #2db34a;
-    cursor: pointer;
-  }
-  .scale {
-    transform: scale(.95);
-  }
-  /* Animation Effect */
-  .scale:hover {
-    transition: transform 1s linear;
-    transform: scale(1);
-  }
 </style>

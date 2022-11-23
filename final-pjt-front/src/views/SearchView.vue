@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>'{{ keyword }}'으로 검색한 결과입니다.</h1>
+
+
     <b-container fluid class="p-4 bg-dark">
       <b-row>
         <b-col 
@@ -24,18 +26,21 @@ export default {
     this.keyword = this.$route.params.movie_title
     this.SearchMovie(this.keyword)
   },
-  beforeUpdated() {
-    this.keyword = this.$route.params.movie_title
-    this.SearchMovie(this.keyword)
-  },
-  updated(){
-    console.log('dddd')
-  },
+  watch:{
+    $route(){
+      this.keyword = this.$route.params.movie_title
+      this.SearchMovie(this.keyword)}
+    },
   data() {
     return {
       keyword: '',
       searchmovie: [],
     }
+  },
+  computed: {
+      rows() {
+        return this.SearchMovie.length
+      }
   },
   methods: {
     SearchMovie(keyword) {
