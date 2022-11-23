@@ -13,7 +13,7 @@ import json # json 파일 파싱용
 
 
 # Create your views here.
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def get_movieList_popular(request): # main 페이지
     if request.method == 'GET':
         movies = get_list_or_404(Movie.objects.order_by('-popularity')[:30]) # 인기 내림차순 정렬 후 30개만 가져오기
@@ -32,8 +32,8 @@ def get_movie_detail(request, movie_id):
 def filter_movie(filter_list):
      # print(filter_list)
     q = Q()
+    is_sorted = False
     for item in filter_list:
-        print(item)
         isContain = int(item['answers_option'])
         if isContain == 2: continue # 0:소거, 1:포함, 2:스킵
         for val in item['field_value']:
@@ -64,11 +64,12 @@ def filter_movie(filter_list):
                     q.add(~Q(original_language=val), q.AND)
             elif item['field_name'] == 'popularity':
                 if isContain:
-                    q.add(Q(popularity__gt=val), q.AND)
-                else:
-                    q.add(~Q(popularity__gt=val), q.AND)
-
-    return Movie.objects.filter(q)
+                    is_sorted = True
+                
+    if is_sorted == True:
+        return Movie.objects.filter(q).order_by('-popularity')
+    else:
+        return Movie.objects.filter(q, vote_count__gte=100)
     
 
 @api_view(['POST'])
@@ -88,7 +89,7 @@ def search_movie_get_result(request):
     filter_list = json.loads(request.body)['filter_list']
     print('result')
     print(filter_list)
-    result = filter_movie(filter_list)
+    result = filter_movie(filter_list)[:3]
     serializer = SearchMovieSerializer(result, many=True)
     return JsonResponse(serializer.data, safe=False)
 

@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <h1>LogIn Page</h1>
-    <form @submit.prevent="logIn">
-      <label for="email">email : </label>
-      <input type="text" id="email" v-model="email"><br>
-
-      <label for="password"> password : </label>
-      <input type="password" id="password" v-model="password"><br>
-
-      <input type="submit" value="logIn">
-    </form>
+  <div class="wrap_Login">
+    <div class="Login">
+      <h1>LOGIN</h1>
+        <form @submit.prevent="logIn">
+          <label for="email">이메일</label>
+          <input class="input" id="email" type="text" v-model="email">
+          <label for="password">닉네임</label>
+          <input class="input" type="password" id="password" v-model="password">
+          <input class="button" type="submit" value="logIn">
+        </form>
+    </div>
   </div>
 </template>
 
@@ -40,3 +40,58 @@ export default {
   }
 }
 </script>
+<style>
+.wrap_Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+.Login {
+  padding: 30px;
+  color: rgb(53, 53, 53);
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: rgb(244 245 243);
+  border: 1px solid rgb(202, 202, 202);
+  box-sizing: border-box;
+  box-shadow: 0 0 5px rgba(137, 255, 68, 0.3),
+              0 0 15px rgba(137, 255, 68, 0.3),
+              0 0 30px rgba(137, 255, 68, 0.3),
+              0 0 100px rgba(137, 255, 68, 0.3);
+}
+.Login form {
+  width: 100%;
+}
+.Login form label {
+  width: 100%;
+  margin: 15px 0 3px 0;
+}
+
+.Login .input {
+  width: 100%;
+  padding: 5px;
+  color: inherit;
+  background: white;
+  border: 1px solid rgb(214, 214, 214);
+}
+
+.Login .button {
+  width: 100%;
+  background: rgb(199, 199, 199);
+  border: none;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: 600;
+  padding: 7px 10px;
+  margin-top: 30px;
+}
+
+.Login .button:hover {
+  color: black;
+  background: rgb(137, 255, 68);
+}
+</style>

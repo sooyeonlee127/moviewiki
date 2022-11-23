@@ -123,7 +123,7 @@ export default new Vuex.Store({
         'answers': ["네", "아니오"],
         'answers_option': [1, 2],
         'field_name': "popularity",
-        'field_value': [500],
+        'field_value': ['ASC'],
       },
       
     ]
@@ -205,7 +205,7 @@ export default new Vuex.Store({
         context.commit('SAVE_TOKEN', res.data.key)
       })
       .catch(error => console.log(error))
-    }
+    },
   },
   modules: {
   }
