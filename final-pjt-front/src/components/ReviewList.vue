@@ -13,13 +13,14 @@
         <b-form-rating id="rating-inline" inline value="value" v-model="rating"></b-form-rating>
       </div>
       <b-form-textarea
+        class="textarea"
         id="content-textarea-no-resize"
         placeholder="Fixed height textarea"
         rows="3"
         v-model="content"
         no-resize
       ></b-form-textarea>
-      <input type="submit">
+      <b-button variant="secondary" type="submit">입력</b-button>
     </form>
   </div>
 
@@ -78,5 +79,6 @@ export default {
 </script>
 
 <style>
+
 
 </style>
