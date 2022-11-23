@@ -88,20 +88,41 @@ export default {
         if (tmp['field_name'] == 'genre_ids') { // 장르로 필터를 거는 경우
         this.del_gerne_cnt += tmp['field_value'].length
           if (this.del_gerne_cnt >= 5 && this.index < 10) { // 소거한 장르의 개수가 5 이상이고, 현재 질문의 인덱스가 10 미만
-            this.index = 11
+            this.index = 10
           } else {
             this.index ++
           }
-        } else if (count > 5) { 
-          console.log(this.index)
+        } else if(this.index == 14) { // 1) 모든 질문이 소진 되었을 때,
+          if( count == 0 ) { this.filter_list.pop() }// (1) 만약 남은 영화가 없다면,
+          
+            // 마지막 필터 제거하고 다음단계로 진행(결과 받아오기)
+            this.view_step = 2
+            // getResult 동기 처리
+            axios({
+              method: 'POST',
+              url: `${this.API_URL}/api/v1/result/`,
+              header: {
+                Authorization: `Token ${this.$store.state.token}`
+              },
+              data: {
+                filter_list: this.filter_list,
+              },
+            })
+            .then((res) => {
+              this.result = res.data.slice(0,4)
+              this.view_step = 2
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+          this.view_step = 2 
+        } else if (count > 10) { // 2) 남은 영화가 10개 이상이면 진행 
           this.index ++
-        } else if (count == 0) {
+        } else if (count == 0) { // 3) 남은 영화가 없으면 마지막 필터를 제거하고 진행
           this.filter_list.pop()
           this.index ++
-        } else {
-          this.view_step = 2
-          console.log('count')
-          console.log(count)
+        } else { // 
+          this.view_step = 2 // 4) 남은 영화가 10개 미만일 때 다음단계로 진행(결과 받아오기)
           // getResult 동기 처리
           axios({
             method: 'POST',
@@ -114,7 +135,7 @@ export default {
             },
           })
           .then((res) => {
-            this.result = res.data
+            this.result = res.data.slice(0,4)
             this.view_step = 2
           })
           .catch((err) => {

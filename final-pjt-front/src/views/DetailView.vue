@@ -6,36 +6,79 @@
         :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" 
          align="right" 
       >
-
-      
-      
       <h1>
         {{ movie.title }}
       </h1>
-      
       <p id="text" align="left">
         <span class="material-symbols-outlined"> closed_caption </span>
-        {{ movie.release_date.slice(0,4)}}
+        {{ movie.release_date.slice(0,4)}} 개봉 | 평점 {{ movie.vote_average }}점
       </p>
       <p id="text"> 
         {{ movie.overview }}
       </p>
-      <p>
-        <b-avatar
-        :src="`https://image.tmdb.org/t/p/original/${ credit[0].profile_path }`"     
-          size="120px"
-        >
-        </b-avatar>
-        {{ credit[0].name}}
-      </p>
-      <div id="review">
+    </div>
+    <div>
+      <db-container class="bv-example-row" id="actorlist">
+        <b-row>
+          <div id="actoritem">
+          <b-avatar
+            rounded="lg"
+            :src="`https://image.tmdb.org/t/p/original/${ credit[0].profile_path }`"     
+            size="100px"
+          >
+          </b-avatar>
+          </div>
+          <div id="actoritem">
+          <b-avatar
+            rounded="lg"
+            :src="`https://image.tmdb.org/t/p/original/${ credit[1].profile_path }`"     
+            size="100px"
+          >
+          </b-avatar>
+          </div>
+          <div id="actoritem">
+          <b-avatar
+            rounded="lg"
+            :src="`https://image.tmdb.org/t/p/original/${ credit[3].profile_path }`"     
+            size="100px"
+          >
+          </b-avatar>
+        </div>
+        </b-row>
+      </db-container>
+      <db-container class="bv-example-row" id="actorlist">
+        <b-row>
+          <div id="actoritem">
+            {{ credit[0].name }}
+          </div>
+          <div id="actoritem">
+            {{ credit[1].name }}
+          </div>
+          <div id="actoritem">
+            {{ credit[2].name }}
+          </div>
+        </b-row>
+      </db-container>
+    </div>
+
+    <div id="review">
+        <b-button v-b-modal.modal-xl variant="primary" @click="getVideo">예고편</b-button>
+        <b-modal id="modal-xl" size="xl" :title="`${ this.movie.title }`">
+          <div>
+            <b-embed
+              type="iframe"
+              aspect="16by9"
+              :src="`https://youtube.com/embed/${this.video}`"
+              allowfullscreen
+            ></b-embed>
+          </div>
+        </b-modal>
+        
         <ReviewList
         :reviews="movie.comment_set"
         :movie_id="movie.id"
         />
-      </div>
     </div>
-    
   </div>
 </div>
 </template>
@@ -44,6 +87,8 @@
 import ReviewList from '../components/ReviewList.vue'
 import axios from 'axios'
 
+const API_URL = 'https://www.googleapis.com/youtube/v3/search'
+const API_KEY = 'AIzaSyDNA1XX0lkSwTF_ps6UJAuDMbsFmNakoeE'
 
 export default {
   name: 'DetailView',
@@ -52,6 +97,7 @@ export default {
       movie: [],
       API_URL: this.$store.state.API_URL,
       credit: [],
+      video: '',
     }
   },
   components: {
@@ -60,6 +106,7 @@ export default {
   created() {
     this.getMovieById(this.$route.params.movie_id)
     this.requestCredit(this.$route.params.movie_id)
+
   },
   methods: {
     getMovieById(movie_id) {
@@ -93,6 +140,22 @@ export default {
       }).catch((error) => {
           console.error(error)
       })
+    },
+    getVideo() {
+      axios.get(API_URL, {
+        params: {
+            key: API_KEY,
+            type: 'video',
+            part: 'snippet',
+            q: this.movie.title + '예고편'
+        }
+    }).then((response) => {
+        this.video = response.data.items[0].id.videoId
+        console.log('video')
+        console.log(this.video)
+    }).catch((error) => {
+        console.error(error)
+    })
     }
   },
   computed: {
@@ -114,14 +177,27 @@ export default {
 #review {
   position: absolute;
   z-index: 1;
-  top: 500px;
+  top: 600px;
   left: 50px;
 }
+
+
 
 .container {
   height: 100%;
 }
 
+#actorlist {
+  position: relative;
+  top: 250px;
+  border-radius: 6px;
+  animation-iteration-count: infinite;
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.102);
+}
+
+#actoritem {
+  width: 150px;
+}
 
 #text{
   position: relative;
@@ -200,7 +276,7 @@ body {
 
 .box {
     margin-top: 100px;
-    margin-right: 60px;
+    margin-right: 110px;
     width: 300px;
     height: 450px;
     line-height: 500px;

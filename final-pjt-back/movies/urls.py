@@ -12,6 +12,7 @@ urlpatterns = [
     path('movies/comments/<int:comment_pk>/', views.comment_detail),
     path('movies/comments/', views.comment_list),
     path('movies/create/', views.create_movie),
+    path('movies/search/<str:keyword>/', views.search_movie),
     # path('movies/best/', views.get_movielist_best_result),
 ]
 
