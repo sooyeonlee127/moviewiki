@@ -9,12 +9,8 @@
               Lorem ipsum <br>dolor sit.
             </caption>
             <p>
-              <button>
-                Trailer
-              </button>
-              <button>
-                More detail
-              </button>
+              <button>Trailer</button>
+              <button>More detail</button>
             </p>
             <table class="movie_info">
               <tr>
