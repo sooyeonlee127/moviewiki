@@ -16,7 +16,7 @@ import json # json 파일 파싱용
 @api_view(['GET', 'POST'])
 def get_movieList_popular(request): # main 페이지
     if request.method == 'GET':
-        movies = get_list_or_404(Movie)
+        movies = get_list_or_404(Movie.objects.order_by('-popularity')[:30]) # 인기 내림차순 정렬 후 30개만 가져오기
         serializer = SearchMovieSerializer(movies, many=True)
         return JsonResponse(serializer.data, safe=False)
 

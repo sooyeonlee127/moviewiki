@@ -1,19 +1,25 @@
 <template>
-  <div id="app" > 
-    <b-navbar-nav>
-      <b-nav>
-        <img src="" alt="Logo">
-        <b-nav-item class="menu" to="/" active>Home</b-nav-item>
-        <b-nav-item class="menu" to="/choice" active>Explore</b-nav-item>
+  <div class="wrap_container">
+    <div id="app" class="container"> 
+      <header>
+        <div class="menus">
+          <!-- <img src="" alt="Logo"> -->
+          <span id="logo" style="font-size: 30px;">LOGO</span>
+          <router-link class="menu" to="/">Home</router-link>
+          <router-link class="menu" to="/choice">Explore</router-link>
+          <form @submit.prevent="" style="display: inline-block">
+            <input class="searchBar" type="text" placeholder="search" @keyup.enter="searchMovie">
+          </form>
+        </div>
         <div class="accounts">
           <router-link v-if="isLogin" to="/profile"><button class="accounts_btn">My page</button></router-link>
           <router-link v-else to="/login"><button class="accounts_btn">Login</button></router-link>
           <button v-if="isLogin" @click="logOut" class="accounts_btn">Logout</button>
           <router-link v-else to="/signup"><button class="accounts_btn">SignUp</button></router-link>
         </div>
-      </b-nav>
-    </b-navbar-nav>
-    <router-view/>
+      </header>
+      <router-view/>
+    </div>
   </div>
 </template>
 <script>
@@ -28,6 +34,9 @@ export default {
     logOut() {
       this.$store.state.token = null
       this.$router.push({ name: 'movie'})
+    },
+    searchMovie() {
+      console.log("dd")
     }
   },
   computed: {
@@ -35,59 +44,99 @@ export default {
       return this.$store.getters.isLogin
     }
   },
+
 }
 </script>
 
 <style>
+/* @import "https://fonts.googleapis.com";
+@import "https://fonts.gstatic.com"; */
+@import "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap";
+
+.wrap_container {
+  background: black;
+  margin: 0;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #dee2e6;
-  background-color: #000;
+  /* background: red; */
 }
 
-.navbar-nav {
-  padding: 30px 0;
+header {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+  padding-top: 50px;
 }
 
-nav {
-  padding: 30px;
-  margin-top: 30px;
+#logo {
+  margin-right: 30px;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.menus {
+  display: inline-block;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.menus .menu {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
 }
 
+.menus .menu:hover {
+  color: rgb(137, 255, 68);
+}
+
+.menus .menu:active {
+  color: rgb(75, 199, 3);
+}
+
+.menus .searchBar{  
+  transition: 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 0 10px;
+  margin: 10px 0;
+  margin-left: 30px !important;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+  background: transparent;
+  width: 150px;
+  border-radius: 0px;
+}
+
+
+.menus .searchBar:focus {
+  margin: 0;
+  padding: 9px 20px;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 1);
+  width: 200px;
+}
 
 .accounts {
-  position: absolute;
   right: 0;
-  margin-top: 5px;
+  display: inline-block;
 }
 .accounts .accounts_btn {
-  margin: 0 5px;
+  margin: 0 7px;
   color: black;
-  border-radius: 10px;
   padding: 3px 10px;
+  font-weight: bold;
   background-color: rgb(137, 255, 68);
-  border: 1px solid rgb(137, 255, 68);
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .accounts .accounts_btn:hover {
-  background-color: rgb(117, 218, 58);
-  border: 1px solid rgb(117, 218, 58);
+  background-color: rgb(255, 255, 255);
 }
 .accounts .accounts_btn:active {
   background-color: rgb(103, 192, 51);
-  border: 1px solid rgb(103, 192, 51);
 }
 </style>

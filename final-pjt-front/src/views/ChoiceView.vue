@@ -43,7 +43,7 @@ export default {
       view_step: 1,
       result : [],
       API_URL: this.$store.state.API_URL,
-      gerne_cnt: 0,
+      del_gerne_cnt: 0,
     }
   },
   computed: {
@@ -69,12 +69,7 @@ export default {
         'field_name': question.field_name,
         'field_value': question.field_value,
       }
-      if (tmp['field_name'] == 'genre_ids') {
-        this.gerne_cnt += tmp['field_value'].length
-        if (this.gerne_cnt >= 10 && this.index < 10) {
-          this.index = 11
-        }
-      }
+      
       this.filter_list.push(tmp)
       axios({
         method: 'POST',
@@ -90,7 +85,14 @@ export default {
         const count = JSON.parse(res.data).count
         console.log(`count : ${count}`)
         console.log(this.result)
-        if (count > 5) {
+        if (tmp['field_name'] == 'genre_ids') { // 장르로 필터를 거는 경우
+        this.del_gerne_cnt += tmp['field_value'].length
+          if (this.del_gerne_cnt >= 5 && this.index < 10) { // 소거한 장르의 개수가 5 이상이고, 현재 질문의 인덱스가 10 미만
+            this.index = 11
+          } else {
+            this.index ++
+          }
+        } else if (count > 5) { 
           console.log(this.index)
           this.index ++
         } else if (count == 0) {
