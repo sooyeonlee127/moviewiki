@@ -10,7 +10,7 @@
       <section>
         <TrendingList :trending="trending"/>
       </section>
-      <section>
+      <section style="margin-bottom: 0;">
         <ActorList :actors="actors"/>
       </section>
     </div>

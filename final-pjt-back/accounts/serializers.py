@@ -1,9 +1,10 @@
-from django.db import transaction
+# from django.db import transaction
 from rest_framework import serializers
 # from allauth.account.adapter import get_adapter
 # from allauth.account.utils import setup_user_email
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth import get_user_model
+# from .models import UserProfile
 
 class RegisterSerializer(RegisterSerializer):
     # 기본 설정 필드: username, password, email
@@ -37,4 +38,34 @@ class UserDetailsSerializer(serializers.ModelSerializer):
             extra_fields.append('profile_image')
         model = UserModel
         fields = ('pk', *extra_fields)
-        read_only_fields = ('USERNAME_FIELD','nickname', 'profile_image')
+        read_only_fields = ('email',)
+
+
+
+
+
+
+
+
+# class UserProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = UserProfile
+#         fields = ('nickname','profile_image',)
+        
+# class UserSerializer(UserDetailsSerializer):
+#     profile = UserProfileSerializer(source="userprofile")
+    
+#     class Meta(UserDetailsSerializer.Meta):
+#         fields = UserDetailsSerializer.Meta.fields + ('profile',)
+
+    
+#     def update(self, instance, validated_data):
+#         # userprofile_serializer = self.fields['profile']
+#         userprofile_instance = instance.userprofile
+#         userprofile_data = validated_data.pop('userprofile', {})
+#         # to access the 'company_name' field in here
+#         # company_name = userprofile_data.get('company_name')
+#         # update the userprofile fields
+#         self.update(userprofile_instance, userprofile_data)
+#         instance = super().update(instance, validated_data)
+#         return instance
