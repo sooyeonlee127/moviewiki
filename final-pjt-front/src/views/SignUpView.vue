@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <h1>Sign Up Page</h1>
-    <form @submit.prevent="SignUp">
-      <label for="email">email : </label>
-      <input type="text" id="email" v-model="email"><br>
+  <div class="wrap_Login">
+    <div class="Login">
+      <h1>Sign Up</h1>
+        <form @submit.prevent="SignUp">
+          <label for="email">email</label>
+        <input class="input" id="email" type="text" v-model="email" placeholder="@example"><br>
 
-      <!-- <label for="profile_image"> profile_image : </label>
-      <input type="file" id="profile_image"><br> -->
+        <label for="nickname"> nickname</label>
+        <input class="input" type="text" id="nickname" v-model="nickname"><br>
 
-      <label for="nickname"> nickname : </label>
-      <input type="text" id="nickname" v-model="nickname"><br>
+        <label for="password1"> password</label>
+        <input class="input" type="password" id="password1" v-model="password1">
 
-      <label for="password1"> password : </label>
-      <input type="password" id="password1" v-model="password1">
-
-      <label for="password2"> password : </label>
-      <input type="password" id="password2" v-model="password2">
-      
-      <input type="submit" value="SignUp">
-    </form>
+        <label for="password2"> password</label>
+        <input class="input" type="password" id="password2" v-model="password2">
+        <input class="button" type="submit" value="회원가입 완료">
+        </form>
+    </div>
   </div>
 </template>
 

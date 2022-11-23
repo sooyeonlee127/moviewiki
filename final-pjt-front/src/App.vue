@@ -12,13 +12,17 @@
           </form>
         </div>
         <div class="accounts">
-          <router-link v-if="isLogin" to="/profile"><button class="accounts_btn">My page</button></router-link>
-          <router-link v-else to="/login"><button class="accounts_btn">Login</button></router-link>
           <button v-if="isLogin" @click="logOut" class="accounts_btn">Logout</button>
           <router-link v-else to="/signup"><button class="accounts_btn">SignUp</button></router-link>
+          <router-link v-if="isLogin" to="/profile"><button class="accounts_btn">My page</button></router-link>
+          <router-link v-else to="/login"><button class="accounts_btn">Login</button></router-link>
         </div>
+        
       </header>
+      <hr>
+      <article>
       <router-view/>
+      </article>
     </div>
   </div>
 </template>
@@ -53,13 +57,19 @@ export default {
 /* @import "https://fonts.googleapis.com";
 @import "https://fonts.gstatic.com"; */
 @import "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap";
-
+body {
+  margin: 0;
+}
 .wrap_container {
   background: black;
   margin: 0;
+  height: 100%;
+  min-height: 100vh;
+  box-sizing: content-box;
 }
 
 #app {
+  min-height: 100vh;
   font-family: 'Open Sans', sans-serif;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -67,6 +77,10 @@ export default {
   text-align: center;
   color: #dee2e6;
   /* background: red; */
+}
+
+.container article {
+  padding: 50px 0;
 }
 
 header {
@@ -77,11 +91,14 @@ header {
 }
 
 #logo {
+  top: 0;
   margin-right: 30px;
 }
 
 .menus {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .menus .menu {
@@ -123,7 +140,9 @@ header {
 
 .accounts {
   right: 0;
-  display: inline-block;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
 }
 .accounts .accounts_btn {
   margin: 0 7px;
