@@ -7,6 +7,7 @@ import LogInView from '@/views/LogInView'
 import SignUpView from '@/views/SignUpView'
 import ProfileView from '@/views/ProfileView'
 import SearchView from '@/views/SearchView'
+import TrailerShow from '@/components/TrailerShow'
 
 
 Vue.use(VueRouter)
@@ -41,6 +42,11 @@ const routes = [
     path: '/search/:movie_title',
     name: 'search',
     component: SearchView
+  }, 
+  {
+    path: '/trailer/:movie_title',
+    name: 'trailer',
+    component: TrailerShow
   }, 
   {
     path: '/movies/:movie_id',

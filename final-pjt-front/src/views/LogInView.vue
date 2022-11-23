@@ -5,7 +5,7 @@
         <form @submit.prevent="logIn">
           <label for="email">이메일</label>
           <input class="input" id="email" type="text" v-model="email">
-          <label for="password">닉네임</label>
+          <label for="password">비밀번호</label>
           <input class="input" type="password" id="password" v-model="password">
           <input class="button" type="submit" value="logIn">
         </form>

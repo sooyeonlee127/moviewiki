@@ -9,19 +9,34 @@
         @click="getCount(idx)">{{ question }}</button>
       </div>
       <div v-else-if="view_step == 2">
-        <h1>{{ result[idx].title }}는 어떠세요?</h1>
-        <img class="poster" :src="`https://image.tmdb.org/t/p/original/${ result[idx].backdrop_path }`" :alt="`${ result[idx].title }`">
-        <button @click="SelectMovie(true, result[idx])">좋아요!</button>
-        <button @click="SelectMovie(false, result[idx])">싫어요</button>
+        <div v-if="result.length > 0">
+          <p class="question">{{ result[idx].title }}는 어떠세요?</p>
+          <img class="poster" :src="`https://image.tmdb.org/t/p/original/${ result[idx].poster_path }`" :alt="`${ result[idx].title }`">
+          <div>
+            <button @click="SelectMovie(true, result[idx])">좋아요!</button>
+            <button @click="SelectMovie(false, result[idx])">싫어요</button>
+          </div>
+        </div>
+        <div v-else>
+          <h1>영화를 별로 안 좋아하시나봐요..</h1>
+          <h1>어쩌면 음악과 더 맞을지도?!</h1>
+          <a href="https://www.melon.com"><button >Melon</button></a>
+          <a href="https://vibe.naver.com/"><button >Vibe</button></a>
+          <a href="https://www.spotify.com"><button >Spotify</button></a>
+        </div>
       </div>
-      <div v-else>
-        <div 
+      <div v-else class="results row">
+        <div class="wrap_movie col-2"
         v-for="(movie, idx) in result"
         :key="`movie_${idx}`"
         >
-          <h1>{{ movie.title }}</h1>
-          <img :src="`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`" alt="">
-        </div>
+          <a @click="DetailMovie(movie.id)">
+            <div class="movie">
+              <img :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" alt="">
+              <div class="desc">{{ movie.title }}</div>
+            </div>
+          </a>
+      </div>
       </div>
     </div>
   </div>
@@ -40,7 +55,15 @@ export default {
       idx: 0,
       index: 0,
       view_step: 1,
-      result : [],
+      // movie: {
+      //   title: null,
+      // },
+      result: [
+        {
+          title: null,
+          poster_path: null,
+        }
+      ],
       API_URL: this.$store.state.API_URL,
       del_gerne_cnt: 0,
     }
@@ -92,18 +115,11 @@ export default {
             this.index ++
           }
         } else if(this.index == 14) { // 1) 모든 질문이 소진 되었을 때,
-<<<<<<< HEAD
-          if( count == 0 ) { this.filter_list.pop() }// (1) 만약 남은 영화가 없다면,
-          
-            // 마지막 필터 제거하고 다음단계로 진행(결과 받아오기)
-            this.view_step = 2
-=======
+
           if( count == 0 ) {
             this.filter_list.pop() 
           } // (1) 만약 남은 영화가 없다면,
             // 마지막 필터 제거하고 다음단계로 진행(결과 받아오기)
-            
->>>>>>> e23c2700419439bf4df22e25ff4bb97f6d92da12
             // getResult 동기 처리
             axios({
               method: 'POST',
@@ -116,27 +132,16 @@ export default {
               },
             })
             .then((res) => {
-<<<<<<< HEAD
-              this.result = res.data.slice(0,4)
-=======
               console.log(res.data)
               this.result = res.data
->>>>>>> e23c2700419439bf4df22e25ff4bb97f6d92da12
               this.view_step = 2
             })
             .catch((err) => {
               console.log(err)
             })
-<<<<<<< HEAD
-          this.view_step = 2 
-        } else if (count > 10) { // 2) 남은 영화가 10개 이상이면 진행 
-          this.index ++
-        } else if (count == 0) { // 3) 남은 영화가 없으면 마지막 필터를 제거하고 진행
-=======
         } else if (count > 10) { // 2) 남은 영화가 10개 이상이면 진행 
           this.index ++
         } else if (count < 3) { // 3) 남은 영화가 없으면 마지막 필터를 제거하고 진행
->>>>>>> e23c2700419439bf4df22e25ff4bb97f6d92da12
           this.filter_list.pop()
           this.index ++
         } else { // 
@@ -153,12 +158,8 @@ export default {
             },
           })
           .then((res) => {
-<<<<<<< HEAD
-            this.result = res.data.slice(0,4)
-=======
             // console.log(res.data)
             this.result = res.data
->>>>>>> e23c2700419439bf4df22e25ff4bb97f6d92da12
             this.view_step = 2
           })
           .catch((err) => {
@@ -184,7 +185,8 @@ export default {
     //     },
     //   })
     //     .then((res) => {
-    //       // console.log(res.data)
+    //       this.idx = 0
+    //       console.log(res.data)
     //       this.result = res.data
     //     })
     //     .catch((err) => {
@@ -223,42 +225,35 @@ export default {
           'field_name': "title",
           'field_value': [movie.title],
         }
+        this.idx++
         console.log('selectmovie')
         this.filter_list.push(tmp)
         console.log(tmp)
         if (this.idx > 2) {
-          console.log('여기')
           this.result = []
-          this.GetResult()
-          this.idx = 0
-        } else {
-          console.log('실패')
-          this.idx++
-        }
-      }
-      // console.log(this.idx)
-      // console.log(this.filter_list)
-      
+        } 
+      }   
     }
   }
 }
 </script>
 
 <style>
-.poster {
-  width: 1200px;
-  height: 480px;
-}
 .inner_container {
   padding-top: 50px;
 }
+
+.inner_container .poster{
+  height: 50vh;
+}
+
 .inner_container button{
   min-width: 100px;
   color: white;
   background-color: transparent;
   border: 1px solid white;
   padding: 5px 10px;
-  margin: 0 10px;
+  margin: 30px 10px;
   transition: 0.1s;
 }
 
@@ -271,6 +266,37 @@ export default {
   background-color: rgb(167, 167, 167);
   border: 1px solid rgb(167, 167, 167);
   color: black;
+}
+
+.inner_container .results {
+  width: 100%;
+}
+
+.inner_container .results .wrap_movie{
+  padding: 10px;
+  display: flex;
+  justify-content: column;
+}
+
+.inner_container .results .movie {
+  color: rgb(211, 211, 211);
+  height: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.1);
+}
+.inner_container .results .movie:hover {
+  
+}
+
+.inner_container .results .movie img {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.inner_container .results .movie .desc {
+  padding: 10px;
+  text-align: left;
 }
 
 .question {

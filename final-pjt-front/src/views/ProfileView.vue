@@ -5,6 +5,8 @@
       
       <form @submit.prevent="changeProfile">
         <div>
+          {{ userReview}}
+
           <label for="nickname">닉네임</label>
           <input id="nickname" class="inputgroup" type="text" disabled="true" v-model="user.nickname" >
         </div>
@@ -24,10 +26,18 @@
       </form>
       <section>
         <h3>내가 좋아하는 콘텐츠</h3>
-        
       </section>
       <section>
         <h3>내가 쓴 리뷰</h3>
+          <div 
+            v-for="review in userReview"
+            :key="review.id"
+            >
+            <div v-if="review.user == user.email">
+              {{ review.movie}}
+              {{ review.content }}
+            </div>
+          </div>
 
       </section>
     </div>
@@ -43,9 +53,13 @@ export default {
     isLogin() {
       return this.$store.getters.isLogin
     },
+    userReview() {
+      return this.$store.state.review
+    }
   },
   created() {
     this.getUser()
+    this.getReview()
   },
   data() {
     return {
@@ -82,8 +96,11 @@ export default {
         console.log(res)
         this.email = res.data.email
         this.user = res.data
+        console.log(res.data)
+        console.log('회원정보')
       })
       .catch((error) => {
+        console.log('회원정보 실패')
         console.log(error)
       })
     },
