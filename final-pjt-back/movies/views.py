@@ -29,6 +29,8 @@ def get_movie_detail(request, movie_id):
         return JsonResponse(serializer.data, safe=False)
 
 
+
+
 def filter_movie(filter_list):
      # print(filter_list)
     q = Q()
@@ -76,6 +78,8 @@ def filter_movie(filter_list):
 def search_movie_get_count(request): # request(POST) : filter_list => return : count
     
     filter_list = json.loads(request.body)['filter_list']
+    print('------------------')
+    print('get_count')
     print(filter_list)
     result = {
         'count' : len(filter_movie(filter_list)),

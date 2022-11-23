@@ -3,10 +3,11 @@
     <MoviePoster
       :movies="movies"
     />
+    {{ best_movies }}
     <br>
     <br>
     <MovieList
-      :movies="movies"
+      :best_movies="best_movies"
     />
     <br>
     <ActorList
@@ -48,10 +49,14 @@ export default {
     this.getMovies()
     this.requestActors()
     this.requestTrending()
+    this.getBestMovies()
   },
   methods: {
     getMovies() {
       this.$store.dispatch('getMovies')
+    },
+    getBestMovies() {
+      this.$store.dispatch('getBestMovies')
     },
     requestActors() {
       const API_URL = 'https://api.themoviedb.org/3/person/popular'
@@ -91,6 +96,9 @@ export default {
   computed: {
     movies() {
       return this.$store.state.movies
+    },
+    best_movies() {
+      return this.$store.state.best_movies
     }
   },
 }

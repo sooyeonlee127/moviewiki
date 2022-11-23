@@ -3,7 +3,7 @@
     <h3>꼭 봐야하는 콘텐츠</h3>
     <b-card-group>
       <MovieListItem
-        v-for="movie in movies"
+        v-for="movie in best_movies"
         :key="movie.id"
         :movie="movie"
         />
@@ -24,7 +24,7 @@ import MovieListItem from '@/components/MovieListItem.vue'
 export default {
   name: 'MovieList',
   props: {
-    movies: Array
+    best_movies: Array
   },
   components: {
     MovieListItem

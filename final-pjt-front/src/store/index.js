@@ -18,6 +18,7 @@ export default new Vuex.Store({
     token: null,
     review: [],
     movies: [],
+    best_movies: [],
     filter_list: [],//[['title', '블랙 팬서', 0], ['title', '아바타', 0]],
     questions: [
       { // -------------- genre 질문 (0~10) -------------
@@ -148,6 +149,9 @@ export default new Vuex.Store({
     GET_MOVIES(state, movies) {
       state.movies = movies
     },
+    GET_BEST_MOVIES(state, movies) {
+      state.best_movies = movies
+    },
     GET_REVIEWS(state, review) {
       state.review = review
     },
@@ -158,13 +162,12 @@ export default new Vuex.Store({
       console.log('SAVE_TOKEN')
       state.token = token
       router.push({ name: 'movie' })
-    }
+    },
   },
   actions: {
     getMovies(context) {
       const API_URL = 'https://api.themoviedb.org/3/movie/popular'
       const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
-
       axios.get(API_URL, {
         params: {
             api_key: API_KEY,
@@ -173,6 +176,21 @@ export default new Vuex.Store({
         .then((res) => {
           context.commit('GET_MOVIES', res.data.results)
         })
+    },
+    getBestMovies(context) {
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/api/v1/movies/best/`,
+        header: {
+          Authorization: `Token ${this.token}`
+        }
+      })
+      .then((res) => {
+        context.commit('GET_BEST_MOVIES', res.data.results)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     },
     SignUp(context, payload) {
       console.log(payload)
@@ -209,7 +227,7 @@ export default new Vuex.Store({
         context.commit('SAVE_TOKEN', res.data.key)
       })
       .catch(error => console.log(error))
-    }
+    },
   },
   modules: {
   }
