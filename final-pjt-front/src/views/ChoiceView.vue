@@ -248,6 +248,8 @@ export default {
 <style>
 .inner_container {
   padding-top: 50px;
+  text-align: center; 
+
 }
 
 .inner_container .poster{

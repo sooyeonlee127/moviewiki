@@ -1,20 +1,30 @@
 <template>
-  <b-container class="bv-example-row">
-    <b-row>
-      <b-col align-self="center">
-        <h3>이름: {{ actor.name }}</h3>
-        <h3>출생지: {{ actor.place_of_birth }}</h3>
-        <h3>
+  <div class="actor">
+    <div class="actor_content">
+      <caption>
+        <p>
+          이름: {{ actor.name }}
+          <br>
+          출생지: {{ actor.place_of_birth }}
+          <br>
           출생연도: {{actor.birthday.slice(0,4)}}년 
           {{actor.birthday.slice(5,7)}}월 
           {{actor.birthday.slice(8,10)}}일
-        </h3>
-      </b-col>
-      <b-col align-self="center">
-        <img :src="`https://image.tmdb.org/t/p/original/${ actor.profile_path }`" style="width: 300px;" fluid alt="Fluid image">
-      </b-col>
-  </b-row>
-  </b-container>
+        </p>
+      </caption>
+    </div>
+    <div class="actor_content">
+      <img :src="`https://image.tmdb.org/t/p/original/${ actor.profile_path }`" style="width: 300px;" fluid alt="Fluid image">
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
 </template>
 
 <script>
@@ -52,5 +62,45 @@ export default {
 </script>
 
 <style>
+.actor {
+  width: 100%;
+  margin: 20px auto;
+  height: 100%;
+  min-height: 500px;
+  background: black;
+  margin: 100px;
+
+
+}
+
+.actor_content {
+  margin-bottom: 60px;
+  height: 100%;;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.actor_content > caption {
+  line-height: 60px;
+  font-size: 40px;    /* 원래 60*/ 
+  color: white;
+  font-weight: 500;
+ 
+}
+.actor_content > caption > span {
+  color: rgb(137, 255, 68);
+}
+
+.actor_content > p {
+  line-height: 60px;
+  font-size: 30px; 
+  color: white;
+  font-weight: 1;
+  align-items: start;
+ 
+}
+
 
 </style>

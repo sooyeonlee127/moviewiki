@@ -89,7 +89,7 @@ a {
   font-family: 'Noto Sans KR', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center;  수정*/  
   color: #dee2e6;
   /* background: red; */
 }

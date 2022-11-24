@@ -6,10 +6,19 @@
     :review="review"
     >
       <div>
-        {{ review.user }} <span>{{ review.created_at }}</span>
-        <span>{{ review.rating }}점</span>
-        <span>{{ review.content }}</span> |
+        <span>작성자: {{ review.user }}</span>
+        <br>  
+        <span>
+          작성일: {{ review.created_at.slice(0,4) }}년 
+          {{ review.created_at.slice(5,7) }}월 
+          {{ review.created_at.slice(8,10) }}일
+        </span>
+        <br>
+        <span>평점: {{ review.rating }}점</span>
+        <br>
+        <span>내용: {{ review.content }}</span>
         <button v-if="review.user==user.email" @click="deleteReview(review.id)">삭제</button>
+        <hr>
       </div>
     </div>
     <form @submit.prevent="createComment" method="POST">
