@@ -33,7 +33,6 @@ def get_movie_detail(request, movie_id):
 
 
 def filter_movie(filter_list):
-     # print(filter_list)
     q = Q()
     is_sorted = False
     for item in filter_list:
@@ -72,7 +71,7 @@ def filter_movie(filter_list):
     if is_sorted == True:
         return Movie.objects.filter(q, vote_count__gt=500)
     else:
-        return Movie.objects.filter(q, vote_count__gt=10) # 원래 100
+        return Movie.objects.filter(q, vote_count__gt=10) 
     
 
 @api_view(['POST'])
@@ -94,7 +93,7 @@ def search_movie_get_result(request):
     filter_list = json.loads(request.body)['filter_list']
     before_result = filter_movie(filter_list)
     numbers=list(range(0,len(before_result))) # numbers 변수에 0~결과의 숫자를 리스트로 저장
-    numbers = random.sample(numbers, 3) #numbers에서 3개의 요소를 중복없이 선택
+    numbers = random.choices(numbers, k=3) #numbers에서 3개의 요소를 중복없이 선택
     result = []
     for i in numbers:
         result.append(before_result[i])
