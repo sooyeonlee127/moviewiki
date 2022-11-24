@@ -1,6 +1,6 @@
 <template>
   <div class="wrap_container">
-    <div id="app" class="container"> 
+    <div id="app" class="container p-0"> 
       <header>
         <div class="menus">
           <!-- <img src="" alt="Logo"> -->
@@ -19,7 +19,6 @@
         </div>
         
       </header>
-      <hr>
       <article>
       <router-view/>
       </article>
@@ -53,6 +52,12 @@ export default {
 }
 </script>
 
+
+
+
+
+
+
 <style>
 /* @import "https://fonts.googleapis.com";
 @import "https://fonts.gstatic.com"; */
@@ -82,15 +87,11 @@ a {
   /* background: red; */
 }
 
-.container article {
-  padding: 50px 0;
-}
-
 header {
   display: flex;
   flex-direction:row;
   justify-content: space-between;
-  padding-top: 50px;
+  padding: 50px 0 20px 0;
 }
 
 #logo {
@@ -151,14 +152,14 @@ header {
   margin: 0 7px;
   color: black;
   padding: 3px 10px;
-  font-weight: bold;
-  background-color: rgb(137, 255, 68);
+  font-weight: 500;
+  background-color: rgb(255, 255, 255);
   transition: 0.2s;
   border: none;
 }
 
 .accounts .accounts_btn:hover {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(137, 255, 68);
 }
 .accounts .accounts_btn:active {
   background-color: rgb(103, 192, 51);

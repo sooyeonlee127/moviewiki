@@ -8,8 +8,7 @@
         <b-col 
           v-for="movie in searchmovie"
           :key="movie.id">
-          <b-img thumbnail fluid :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" >
-          </b-img>
+          <img :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`">
           {{ movie.title }}
         </b-col>
       </b-row>

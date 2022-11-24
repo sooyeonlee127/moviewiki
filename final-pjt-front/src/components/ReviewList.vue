@@ -1,98 +1,47 @@
 <template>
-  <div>
-    <div style="max-width: 30rem;">
-
-    <form @submit.prevent="createComment" method="POST">
-      <!-- <h3>-------------------------</h3>
-      <div class="page">
-        <div class="page__demo">
-          <div class="page__group">
-            <div class="rating">
-              <input type="radio" name="rating-star" class="rating__control screen-reader" id="rc1" @click="this.rating=1">
-              <input type="radio" name="rating-star" class="rating__control screen-reader" id="rc2" @click="this.rating=2">
-              <input type="radio" name="rating-star" class="rating__control screen-reader" id="rc3" @click="this.rating=3">
-              <input type="radio" name="rating-star" class="rating__control screen-reader" id="rc4" @click="this.rating=4">
-              <input type="radio" name="rating-star" class="rating__control screen-reader" id="rc5" @click="this.rating=5">
-              <label for="rc1" class="rating__item">
-                <svg class="rating__star">
-                  <use xlink:href="#star"></use>
-                </svg>
-                <span class="screen-reader">1</span>
-              </label>
-              <label for="rc2" class="rating__item">
-                <svg class="rating__star">
-                  <use xlink:href="#star"></use>
-                </svg>
-                <span class="screen-reader">2</span>
-              </label>
-              <label for="rc3" class="rating__item">
-                <svg class="rating__star">
-                  <use xlink:href="#star"></use>
-                </svg>
-                <span class="screen-reader">3</span>
-              </label>
-              <label for="rc4" class="rating__item">
-                <svg class="rating__star">
-                  <use xlink:href="#star"></use>
-                </svg>
-                <span class="screen-reader">4</span>
-              </label>
-              <label for="rc5" class="rating__item">
-                <svg class="rating__star">
-                  <use xlink:href="#star"></use>
-                </svg>
-                <span class="screen-reader">5</span>
-              </label>	
-            </div>
-            <span class="page__hint">unselected state</span>
-          </div>
-        </div>
-      </div>
-      <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
-        <symbol id="star" viewBox="0 0 26 28">
-          <path d="M26 10.109c0 .281-.203.547-.406.75l-5.672 5.531 1.344 7.812c.016.109.016.203.016.313 0 .406-.187.781-.641.781a1.27 1.27 0 0 1-.625-.187L13 21.422l-7.016 3.687c-.203.109-.406.187-.625.187-.453 0-.656-.375-.656-.781 0-.109.016-.203.031-.313l1.344-7.812L.39 10.859c-.187-.203-.391-.469-.391-.75 0-.469.484-.656.875-.719l7.844-1.141 3.516-7.109c.141-.297.406-.641.766-.641s.625.344.766.641l3.516 7.109 7.844 1.141c.375.063.875.25.875.719z"/>
-        </symbol>
-      </svg>
-      <h3>---------------------------------</h3> -->
-      <div>
-        <label for="rating-inline">별점 : </label>
-        <b-form-rating id="rating-inline" inline value="value" v-model="rating"></b-form-rating>
-      </div>
-      <b-form-textarea
-        class="textarea"
-        id="content-textarea-no-resize"
-        placeholder="Fixed height textarea"
-        rows="3"
-        v-model="content"
-        no-resize
-      ></b-form-textarea>
-      <b-button variant="secondary" type="submit">입력</b-button>
-    </form>
-    <ReviewListItem
+  <div class='review_list'>
+    <div class="review_item"
     v-for="(review, idx) in review_list"
     :key="`review_${idx}`"
     :review="review"
-    />
-  </div>
-
+    >
+      <div>
+        {{ review.user }} <span>{{ review.created_at }}</span>
+        <span>{{ review.rating }}점</span>
+        <span>{{ review.content }}</span> |
+        <button v-if="review.user==user.email" @click="deleteReview(review.id)">삭제</button>
+      </div>
+    </div>
+    <form @submit.prevent="createComment" method="POST">
+      <div>
+        <label for="rating-inline"></label>
+        <b-form-rating id="rating-inline" inline value="value" v-model="rating"></b-form-rating>
+      </div>
+      <div class="textarea">
+        <input class="textarea_input" placeholder="Fixed height textarea" v-model="content" no-resize>
+        <input class="textarea_submit" type="submit" value="입력">
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import ReviewListItem from '@/components/ReviewListItem.vue'
 
 export default {
   name: 'ReviewList',
   components: {
-    ReviewListItem,
   },
   data() {
     return {
       content: null,
       rating: null,
+      user: null,
       API_URL: this.$store.state.API_URL
     }
+  },
+  created() {
+    this.getUser()
   },
   props: {
     reviews: Array,
@@ -102,7 +51,7 @@ export default {
     review_list() {
       return this.reviews
     }
-  },  
+  },
   methods: {
     createComment() {
       axios({
@@ -124,8 +73,45 @@ export default {
         console.log(error)
       })
     },
+    deleteReview(review_id) {
+      axios({
+        method: 'delete',
+        url: `${this.API_URL}/api/v1/movies/comments/${review_id}/`,
+        headers: {
+          'Authorization': `Token ${this.$store.state.token}`
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        const itemToFind = this.review_list.find(function(item) {return item.id === review_id})
+        const idx = this.review_list.indexOf(itemToFind)
+        if (idx > -1) this.review_list.splice(idx, 1)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
+    getUser() {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/accounts/user/`,
+        headers: {
+          'Authorization': `Token ${this.$store.state.token}`
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        this.user = res.data
+        console.log(res.data)
+        console.log('회원정보')
+      })
+      .catch((error) => {
+        console.log('회원정보 실패')
+        console.log(error)
+      })
+    },
+    
   }
-
 }
 </script>
 
@@ -234,6 +220,49 @@ DEMO
   font-size: 1rem;
   margin: 0;
 } */
+
+.review_list {
+  text-align: left;
+}
+
+.review_list .review_item {
+  padding: 10px 0;
+  font-weight: 300;
+  border-bottom: 1px solid rgb(29, 29, 29);
+  color: rgb(173, 173, 173);
+}
+
+.textarea {
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid rgb(63, 63, 63);
+  display: flex;
+  flex-direction: row;
+}
+
+.textarea_input {
+  background: transparent;
+  color: white;
+  padding: 0 60px 0 20px;
+  width: 100%;
+  border: none;
+}
+.textarea_submit {
+  background: rgb(0, 0, 0);
+  border: 1px solid rgb(63, 63, 63);
+  color: rgb(163, 163, 163);;
+  font-weight: 600;
+  padding: 0 30px;
+  height: 50px;
+  margin: 10px;
+  transition: 0.1s;
+}
+
+.textarea_submit:hover {
+  background: white;
+  border: 1px solid white;
+  color: black;
+}
 
 .page{
   min-height: 100vh;

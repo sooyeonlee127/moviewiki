@@ -5,14 +5,16 @@
       
       <form @submit.prevent="changeProfile">
         <div>
-          {{ userReview}}
-
           <label for="nickname">닉네임</label>
           <input id="nickname" class="inputgroup" type="text" disabled="true" v-model="user.nickname" >
         </div>
         <div>
           <label for="email">이메일</label>
           <input id="email" class="inputgroup" type="text" disabled="true" v-model="user.email">
+        </div>
+        <div>
+          <label for="profile_image">프로필 사진</label>
+          <input class="inputgroup" type="file" id="profile_image" multiple @change="ImgChange" ref="serveyImage">
         </div>
         <input type="submit" v-if="change_profile" value="수정 완료">
         <button v-if="change_profile" >취소</button>
@@ -123,11 +125,18 @@ export default {
         this.change_password = true
       }
     },
+    ImgChange(event) {
+      console.log(event)
+      this.user.profile_image = event.target.files[0];
+    },
     changeProfile() {
+      console.log(`Token ${this.$store.state.token}`)
+      console.log(this.user.profile_image)
       axios({
         method: 'put',
         url: `${this.API_URL}/accounts/user/`,
         headers: {
+          'Content-Type': 'multipart/form-data',
           'Authorization': `Token ${this.$store.state.token}`,
         },
         data: {
