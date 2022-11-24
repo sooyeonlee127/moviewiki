@@ -1,14 +1,23 @@
 <template>
   <div>
     <h1>'{{ keyword }}'으로 검색한 결과입니다.</h1>
+    <hr>
     <b-container fluid class="p-4 bg-dark">
       <b-row>
         <b-col 
           v-for="movie in searchmovie"
           :key="movie.id">
-          <b-img thumbnail fluid :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" @click="getDetail(movie.id)" >
-          </b-img>
-          {{ movie.title }}
+          <div class="container"
+            style="width: 250px; display: flex; flex-direction: column; align-items: center; margin-bottom: 10px;">
+            <img
+              :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" 
+              @click="getDetail(movie.id)"
+              style="width: 200px;"
+              >
+              <span style="width: 200px; font-size: 20px; font-weight: 500;">
+                {{ movie.title }}
+              </span>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -63,5 +72,9 @@ export default {
 </script>
 
 <style>
+b-img {
+  width: 100px;
+
+}
 
 </style>

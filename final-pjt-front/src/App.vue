@@ -42,6 +42,7 @@ export default {
     searchMovie() {
       console.log(this.movieTitle)
       this.$router.push({ name: 'search', params: { movie_title: this.movieTitle } })
+
     },
     goHome() {
       this.$router.push({ name: 'movie' })
