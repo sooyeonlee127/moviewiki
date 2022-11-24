@@ -1,14 +1,12 @@
 <template>
   <div>
     <h1>'{{ keyword }}'으로 검색한 결과입니다.</h1>
-
-
     <b-container fluid class="p-4 bg-dark">
       <b-row>
         <b-col 
           v-for="movie in searchmovie"
           :key="movie.id">
-          <b-img thumbnail fluid :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" >
+          <b-img thumbnail fluid :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" @click="getDetail(movie.id)" >
           </b-img>
           {{ movie.title }}
         </b-col>
@@ -56,9 +54,12 @@ export default {
         console.log('search view의 catch')
         console.log(error)
       })},
-
+  getDetail(movie_id){
+    console.log('클릭')
+    console.log(movie_id)
+    this.$router.push({name: 'detail', params: {movie_id}})
   }
-  }
+  }}
 </script>
 
 <style>

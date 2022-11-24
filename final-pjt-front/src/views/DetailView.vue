@@ -113,11 +113,10 @@ export default {
   },
   components: {
     ReviewList,
-  },
+  }, 
   created() {
     this.getMovieById(this.$route.params.movie_id)
     this.requestCredit(this.$route.params.movie_id)
-
   },
   methods: {
     getMovieById(movie_id) {

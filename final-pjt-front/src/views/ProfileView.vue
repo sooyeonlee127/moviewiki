@@ -2,11 +2,8 @@
   <div class="wrap_myPage">
     <div class="myPage">
       <h1>{{user.nickname}}님의 페이지</h1>
-      
       <form @submit.prevent="changeProfile">
         <div>
-          {{ userReview}}
-
           <label for="nickname">닉네임</label>
           <input id="nickname" class="inputgroup" type="text" disabled="true" v-model="user.nickname" >
         </div>
@@ -14,31 +11,30 @@
           <label for="email">이메일</label>
           <input id="email" class="inputgroup" type="text" disabled="true" v-model="user.email">
         </div>
-        <button v-if="!change_profile" @click="ProfileInputToggle">회원정보 수정</button>
+        <button id="pfbtn" v-if="!change_profile" @click="ProfileInputToggle">회원정보 수정</button>
         <input type="submit" v-else value="수정 완료">
       </form>
 
-      <button v-if="!change_password" @click="PasswordInputToggle">비밀번호 변경</button>
+      <button id="pfbtn" v-if="!change_password" @click="PasswordInputToggle">비밀번호 변경</button>
       <form @submit.prevent="changePassword">
         <input id="pw_input" class="inputgroup" type="password" v-model="new_password1">
         <input id="pw_input" class="inputgroup" type="password" v-model="new_password2">
         <input type="submit" value="비밀번호 변경 제출">
       </form>
       <section>
-        <h3>내가 좋아하는 콘텐츠</h3>
-      </section>
-      <section>
         <h3>내가 쓴 리뷰</h3>
-          <div 
-            v-for="review in userReview"
+        <div
+        v-for="(review, idx) in userReview"
+        :key="`review_${idx}`"
+        :review="review"
+        >
+          <ProfileReview
+            v-if="review.user == user.email"
             :key="review.id"
-            >
-            <div v-if="review.user == user.email">
-              {{ review.movie}}
-              {{ review.content }}
-            </div>
-          </div>
-
+            :review="review"
+            @delete-review="deleteReview"
+            />
+        </div>
       </section>
     </div>
   </div>
@@ -46,21 +42,30 @@
 
 <script>
 import axios from 'axios'
+import ProfileReview from '@/components/ProfileReview.vue'
 
 export default {
   name: 'ProfileView',
+  components: {
+    ProfileReview
+  },
   computed: {
     isLogin() {
       return this.$store.getters.isLogin
     },
     userReview() {
       return this.$store.state.review
-    }
+    },
   },
   created() {
     this.getUser()
     this.getReview()
   },
+  // watch: {
+  //   userReview() {
+  //     this.getReview()
+  //   }
+  // },
   data() {
     return {
       user: {
@@ -76,9 +81,14 @@ export default {
     }
   },
   methods: {
-    getReviews() {
+    deleteReview(review_id) {
+        const itemToFind = this.userReview.find(function(item) {return item.id === review_id})
+        const idx = this.userReview.indexOf(itemToFind)
+        if (idx > -1) this.userReview.splice(idx, 1)
+    },
+    getReview() {
       if (this.isLogin) {
-        this.$store.dispatch('getReviews')
+        this.$store.dispatch('getReview')
       } else {
         alert('로그인이 필요한 서비스입니다')
         this.$router.push({ name: 'login' })
@@ -218,4 +228,7 @@ export default {
   background: rgb(240, 248, 255);
   color: black;
 }
+
+/* ------------------------ */
+
 </style>

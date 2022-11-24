@@ -7,6 +7,8 @@ import LogInView from '@/views/LogInView'
 import SignUpView from '@/views/SignUpView'
 import ProfileView from '@/views/ProfileView'
 import SearchView from '@/views/SearchView'
+import ActorView from '@/views/ActorView'
+import AboutView from '@/views/AboutView'
 import TrailerShow from '@/components/TrailerShow'
 
 
@@ -17,6 +19,11 @@ const routes = [
     path: '/',
     name: 'movie',
     component: MovieView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutView
   },
   {
     path: '/choice',
@@ -52,6 +59,11 @@ const routes = [
     path: '/movies/:movie_id',
     name: 'detail',
     component: DetailView
+  },
+  {
+    path: '/actor/:actor_id',
+    name: 'actor',
+    component: ActorView
   },
 ]
 

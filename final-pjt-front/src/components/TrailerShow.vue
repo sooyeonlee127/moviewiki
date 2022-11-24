@@ -5,6 +5,7 @@
       aspect="16by9"
       :src="`https://youtube.com/embed/${this.video}`"
       allowfullscreen
+      style="height: 600px; width: 900px"
     ></b-embed>
 
   </div>
@@ -34,14 +35,15 @@ export default {
             key: API_KEY,
             type: 'video',
             part: 'snippet',
-            q: this.movie.title + '예고편'
+            q: this.movie_title +'예고편'
         }
     }).then((response) => {
         this.video = response.data.items[0].id.videoId
         console.log('video')
         console.log(this.video)
     }).catch((error) => {
-        console.error(error)
+        console.log('에러')
+        console.log(error)
     })
     }
   }

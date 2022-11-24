@@ -51,7 +51,11 @@ export default {
   },
   data() {
     return {
-      filter_list : [],
+      filter_list : [{
+        'answers_option': 0,
+        'field_name': 'adult',
+        'field_value': [true],
+      }],
       idx: 0,
       index: 0,
       view_step: 1,

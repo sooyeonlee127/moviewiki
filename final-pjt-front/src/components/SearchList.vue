@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>삭제할 페이지</h1>
     <b-pagination
       v-model="currentPage"
       :total-rows="rows"

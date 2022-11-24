@@ -101,9 +101,9 @@ export default new Vuex.Store({
       {
         'content': "가족과 함께 보시나요?",
         'answers': ["네", "아니오"],
-        'answers_option': [0, 2],
-        'field_name': "adult",
-        'field_value': [true],
+        'answers_option': [1, 2],
+        'field_name': "genre_ids",
+        'field_value': [10751],
       },
       {
         'content': "한국 영화만 보시겠어요?",

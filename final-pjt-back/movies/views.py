@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import SearchMovieSerializer, CommentSerializer, MovieSerializer
 from .models import Movie, Comment
 import json # json 파일 파싱용
+import random
 
 
 # Create your views here.
@@ -69,9 +70,9 @@ def filter_movie(filter_list):
                     is_sorted = True
                 
     if is_sorted == True:
-        return Movie.objects.filter(q).order_by('-popularity')
+        return Movie.objects.filter(q, vote_count__gt=500)
     else:
-        return Movie.objects.filter(q, vote_count__gte=100)
+        return Movie.objects.filter(q, vote_count__gt=10) # 원래 100
     
 
 @api_view(['POST'])
@@ -91,9 +92,12 @@ def search_movie_get_count(request): # request(POST) : filter_list => return : c
 @api_view(['POST'])
 def search_movie_get_result(request):
     filter_list = json.loads(request.body)['filter_list']
-    print('result')
-    print(filter_list)
-    result = filter_movie(filter_list)[:3]
+    before_result = filter_movie(filter_list)
+    numbers=list(range(0,len(before_result))) # numbers 변수에 0~결과의 숫자를 리스트로 저장
+    numbers = random.sample(numbers, 3) #numbers에서 3개의 요소를 중복없이 선택
+    result = []
+    for i in numbers:
+        result.append(before_result[i])
     serializer = SearchMovieSerializer(result, many=True)
     return JsonResponse(serializer.data, safe=False)
 

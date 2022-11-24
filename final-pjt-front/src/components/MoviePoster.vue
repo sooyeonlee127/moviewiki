@@ -6,20 +6,23 @@
         <slideritem>
           <div class="slider_content">
             <caption>
-              Lorem ipsum <br>dolor sit.
+              하이테크
+              <br>
+              슈퍼히어로의 탄생
+              <!-- Lorem ipsum <br>dolor sit. -->
             </caption>
             <p>
               <button @click="getTrailer('아이언맨')">
                 Trailer
               </button>
-              <button>
+              <button @click="getSearch('아이언맨')">
                 More detail
               </button>
             </p>
             <table class="movie_info">
               <tr>
                 <td>32K+</td>
-                <td>20K+</td>
+                <td>109K+</td>
                 <td>10K+</td>
               </tr>
               <tr>
@@ -34,13 +37,13 @@
         <slideritem>
           <div class="slider_content">
             <caption>
-              Lorem ipsum <br>dolor sit.
+              지상 최강의 액션 블록버스터, <br> 분노의 질주
             </caption>
             <p>
-              <button id="clickbtn" @click="getTrailer('누구?')">
+              <button id="clickbtn" @click="getTrailer('분노의 질주')">
                 Trailer
               </button>
-              <button>
+              <button @click="getSearch('분노의 질주')">
                 More detail
               </button>
             </p>
@@ -79,8 +82,6 @@ import { slider, slideritem } from 'vue-concise-slider'
           speed: 1500,
           // loop: true,
           autoplay:7000,
-
-
         }
       }
     },
@@ -93,8 +94,10 @@ import { slider, slideritem } from 'vue-concise-slider'
     },
     methods: {
       getTrailer(movie_title) {
-        console.log('버튼 눌림')
         this.$router.push({name: 'trailer', params: {movie_title}})
+      },
+      getSearch(movie_title) {
+        this.$router.push({name: 'search', params: {movie_title}})
       }
       }
 
@@ -103,10 +106,6 @@ import { slider, slideritem } from 'vue-concise-slider'
 </script>
 
 <style>
-#clickbtn {
- position: relative;
- z-index: 99;
-}
 
 .slider {
   width: 100%;
@@ -128,10 +127,10 @@ import { slider, slideritem } from 'vue-concise-slider'
 
 .slider_content > caption {
   line-height: 60px;
-  font-size: 60px;
-  margin-bottom: 70px;
+  font-size: 60px;    /* 원래 60*/
+  margin-bottom: 70px; 
   color: white;
-  font-weight: 700;
+  font-weight: 700; 
 }
 
 .slider_content > img {
