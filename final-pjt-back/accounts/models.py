@@ -11,13 +11,13 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have a email')
         if not nickname:
             raise ValueError('Users must have a nickname')
-        # if not profile_image:
-        #     raise ValueError('Users must have a profile_image')
+        if not profile_image:
+            raise ValueError('Users must have a profile_image')
 
         user = self.model(
-        email=self.normalize_email(email),
-        nickname=nickname,
-        profile_image=profile_image,
+            email=self.normalize_email(email),
+            nickname=nickname,
+            profile_image=profile_image,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -43,7 +43,7 @@ class User(AbstractBaseUser):
         unique=True, 
     )
     nickname = models.CharField(max_length=15)
-    profile_image = models.ImageField(null = True)
+    profile_image = models.ImageField(null=True, upload_to='profile_image')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

@@ -1,91 +1,80 @@
 <template>
-  <div class="container">
-  <div class="element" :style="{ backgroundImage: 'url(https://image.tmdb.org/t/p/original/' + movie.backdrop_path + ')' }">
-    <div class="content">
-      <img class="child box scale" 
-        :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`" 
-         align="right" 
-      >
-      <h1>
-        {{ movie.title }}
-      </h1>
-      <p id="text" align="left">
-        <span class="material-symbols-outlined"> closed_caption </span>
-        {{ movie.release_date.slice(0,4)}} 개봉 | 평점 {{ movie.vote_average }}점
-      </p>
-      <p id="text"> 
-        {{ movie.overview }}
-      </p>
-    </div>
-    <div>
-      <db-container class="bv-example-row" id="actorlist">
-        <b-row>
-          <div id="actoritem">
-          <b-avatar
-            rounded="lg"
-            :src="`https://image.tmdb.org/t/p/original/${ credit[0].profile_path }`"     
-            size="100px"
-          >
-          </b-avatar>
-          </div>
-          <div id="actoritem">
-          <b-avatar
-            rounded="lg"
-            :src="`https://image.tmdb.org/t/p/original/${ credit[1].profile_path }`"     
-            size="100px"
-          >
-          </b-avatar>
-          </div>
-          <div id="actoritem">
-          <b-avatar
-            rounded="lg"
-            :src="`https://image.tmdb.org/t/p/original/${ credit[3].profile_path }`"     
-            size="100px"
-          >
-          </b-avatar>
+  <div class="container" style="padding: 0;">
+    <div class="element">
+      <div class="content row m-0" :style="{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://image.tmdb.org/t/p/original/' + movie.backdrop_path + ')' }">
+        <div class="movie_info col-8">
+          <h1 class="movie_title">{{ movie.title }}</h1>
+          <table class="movie_summery">
+            <tr>
+              <td>{{ movie.release_date.slice(0,4)}}</td>
+              <td>{{ movie.vote_average }}점</td>
+            </tr>
+            <tr>
+              <td>개봉</td>
+              <td>평점</td>
+            </tr>
+          </table>
         </div>
-        </b-row>
-      </db-container>
-      <db-container class="bv-example-row" id="actorlist">
-        <b-row>
-          <div id="actoritem">
-            {{ credit[0].name }}
+        <img class="detail_poster col-4" 
+          :src="`https://image.tmdb.org/t/p/original/${ movie.poster_path }`"  
+        >
+      </div>
+      <div class="section">
+        <section class="row">
+          <div class="col-8">
+            <div class="information">
+              <p style="font-size: 30px; text-align:center;">줄거리</p>
+              <div class="overview">
+                {{ movie.overview }}
+              </div>
+            <div style="display: flex; flex-direction: row;">
+              <button class="btnGroup" v-b-modal.modal-xl @click="getVideo">Trailer</button>
+                <b-modal id="modal-xl" size="xl" :title="`${ this.movie.title }`">
+                  <div>
+                    <b-embed
+                      type="iframe"
+                      aspect="16by9"
+                      :src="`https://youtube.com/embed/${this.video}`"
+                      allowfullscreen
+                    ></b-embed>
+                  </div>
+                </b-modal>
+              </div>
+            </div>
+            <div class="review">
+              <ReviewList
+              :reviews="movie.comment_set"
+              :movie_id="movie.id"
+              />
+            </div>
           </div>
-          <div id="actoritem">
-            {{ credit[1].name }}
+          <div class="actorlist col-4">
+            <p style="font-size: 30px; text-align:center;">Actors</p>
+            <vue-custom-scrollbar class="scroll-area"  :settings="settings" @ps-scroll-y="scrollHanle">
+              <div class="row" style="margin:0;">
+                <div 
+                v-for="(actor, idx) in credit"
+                :key="`actor_${idx}`"
+                :actor="actor"
+                class="actoritem col-4"
+                >
+                  <img :src="`https://image.tmdb.org/t/p/original/${ actor.profile_path }`">
+                  <p>{{ actor.name }}</p>
+                </div>
+              </div>
+            </vue-custom-scrollbar>
           </div>
-          <div id="actoritem">
-            {{ credit[2].name }}
-          </div>
-        </b-row>
-      </db-container>
-    </div>
-
-    <div id="review">
-        <b-button v-b-modal.modal-xl variant="primary" @click="getVideo">예고편</b-button>
-        <b-modal id="modal-xl" size="xl" :title="`${ this.movie.title }`">
-          <div>
-            <b-embed
-              type="iframe"
-              aspect="16by9"
-              :src="`https://youtube.com/embed/${this.video}`"
-              allowfullscreen
-            ></b-embed>
-          </div>
-        </b-modal>
-        
-        <ReviewList
-        :reviews="movie.comment_set"
-        :movie_id="movie.id"
-        />
+        </section>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import ReviewList from '../components/ReviewList.vue'
 import axios from 'axios'
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
 const API_URL = 'https://www.googleapis.com/youtube/v3/search'
 const API_KEY = 'AIzaSyDNA1XX0lkSwTF_ps6UJAuDMbsFmNakoeE'
@@ -95,12 +84,18 @@ export default {
   data() {
     return {
       movie: {
-        title: null,
-        vote_average: null,
-        profile_path: null,
-        poster_path: null,
-        backdrop_path: null,
+        id: null,
+        adult: null,
+        original_language: null,
+        original_title: null,
+        overview: null,
+        popularity: null,
         release_date: null,
+        title: null,
+        video: null,
+        vote_average: null,
+        vote_count: null,
+        genre_ids: null,
       },
       API_URL: this.$store.state.API_URL,
       credit: [
@@ -109,15 +104,20 @@ export default {
         }
       ],
       video: '',
+      settings: {
+        suppressScrollY: false,
+        suppressScrollX: false,
+        wheelPropagation: false
+      },
     }
   },
   components: {
     ReviewList,
+    vueCustomScrollbar,
   },
   created() {
     this.getMovieById(this.$route.params.movie_id)
     this.requestCredit(this.$route.params.movie_id)
-
   },
   methods: {
     getMovieById(movie_id) {
@@ -129,10 +129,44 @@ export default {
         console.log(res)
         this.movie = res.data
       })
-      .catch((error) => {
-        console.log(error)
+      .catch(() => {
+        this.createMovie(movie_id)
       })
     },
+    createMovie(movie_id) {
+      const API_URL = `https://api.themoviedb.org/3/movie/${movie_id}`
+      const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
+      axios({
+        method: 'GET',
+        url: API_URL,
+        params: {
+          'api_key': API_KEY,
+        }
+      })
+      .then((res) => {
+        console.log(res.data)
+        this.movie=res.data
+        axios({
+          method: 'POST',
+          url: `${this.API_URL}/api/v1/movies/create/`,
+          headers: {
+            'Authorization': `Token ${this.$store.state.token}`
+          },
+          data: {
+            'movie': this.movie
+          },
+        })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }, 
     requestCredit(movie_id) {
       const API_URL = `https://api.themoviedb.org/3/movie/${movie_id}/credits`
       const API_KEY = '53b8d4bdf76930f30d64c0bcd333285a'
@@ -143,7 +177,7 @@ export default {
             language: 'ko',
         }
       }).then((response) => {
-        const credit = response.data.cast
+        const credit = response.data.cast.slice(0,10)
         this.credit = credit
         console.log('credit')
         console.log(this.credit)
@@ -167,6 +201,9 @@ export default {
     }).catch((error) => {
         console.error(error)
     })
+    },
+    scrollHanle(evt) {
+      console.log(evt)
     }
   },
   computed: {
@@ -185,143 +222,120 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 
-#review {
-  position: absolute;
-  z-index: 1;
-  top: 600px;
-  left: 50px;
-}
-
-
-
-.container {
-  height: 100%;
-}
-
-#actorlist {
-  position: relative;
-  top: 250px;
-  border-radius: 6px;
-  animation-iteration-count: infinite;
-  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.102);
-}
-
-#actoritem {
-  width: 150px;
-}
-
-#text{
-  position: relative;
-  z-index: 2;
-  top: 200px;
-  left: 5px;
-  font-size: 1vw;
-  color:#fff;
-  text-shadow: 1px 1px 2px rgb(0, 0, 0), 0 0 1em rgb(15, 14, 14), 0 0 0.2em rgb(0, 0, 0);
-  z-index: 2;
-
-}
-
-
-body {
-  font-family: 'Nanum Gothic', sans-serif;
-}
-
-.content {
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
-.content h1 {
-  font-size: 3vw;
-  color: #fff;
-  position: relative;
-  font-weight: bold;
-  top: 200px;
-  text-shadow: 1px 1px 2px rgb(0, 0, 0), 0 0 1em rgb(15, 14, 14), 0 0 0.2em rgb(0, 0, 0);
-}
 
 
 .element {
-  height: 100vh;
+  height: 100%;
   position: relative;
   background-size: cover;
-  top: 30px;
+  top: 0px;
   left: 0px;
-  right: 0px;
-  bottom: 0px;
   z-index: 0;
 }
+.content{
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+}
+.detail_poster {
+  padding: 0 !important;
+  box-shadow: 0px 0px 50px 5px black;
+}
+.movie_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  box-sizing: border-box;
+  padding-left: 100px !important;
+}
 
-.element::before {
-  height: 100%;
-  width: 50%;
-  content: "";
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  background: linear-gradient(
-    to right, rgb(0, 0, 0),transparent
-  );
-  /* background-color: #000; */
-  z-index: -1;
+.movie_title {
+  text-align: left;
+  margin: 0 0 30px 0;
+  font-weight: 600;
+}
+
+.movie_summery {
+  text-align: left;
+}
+
+.movie_summery tr:first-child{
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.movie_summery tr:last-child {
+  color: rgb(184, 184, 184);
+  text-align: center;
+  font-size: 15px;
+}
+
+.movie_summery tr td {
+  padding: 0 30px 0 0;
 }
 
 
-.element::after {
-  height: 100%;
-  width: 50%;
-  content: "";
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  background: linear-gradient(
-    to left, rgb(0, 0, 0),transparent
-  );
-  /* background-color: #000; */
-  z-index: -1;
+.actorlist {
+  padding: 0 !important;
 }
 
+.actorlist .actoritem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 10px;
+  z-index: -1;
+}
+.actorlist .actoritem img {
+  height: 100px;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 5px;
+}
 
-.box {
-    margin-top: 100px;
-    margin-right: 110px;
-    width: 300px;
-    height: 450px;
-    line-height: 500px;
-    color: white;
-    border-radius: 6px;
-    animation-iteration-count: infinite;
-    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.102);
-    z-index: 2;
+.scroll-area {
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+  height: 450px;
+  box-shadow: inset 0px -30px 20px -10px black;
+}
+section {
+  margin: 0;
+}
+.section {
+  padding: 20px;
+}
+.information {
+  padding: 0 50px 0 0;
+}
 
-  }
-  /* .original {
-    margin: 30px;
-    border: 1px dashed #cecfd5;
-    background: #eaeaed;
-    float: left;
-  } */
-  .child {
-    background: #2db34a;
-    cursor: pointer;
-  }
-  .scale {
-    transform: scale(.95);
-  }
-  .scale:hover {
-    transition: transform 1s linear;
-    transform: scale(1);
-  }
+.overview {
+  padding: 10px;
+  text-align: left;
+  min-height: 120px;
+}
 
-  .material-symbols-outlined {
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 48
-  }
+.review {
+  margin-top: 50px;
+}
 
+.btnGroup{
+  font-size: 25px;
+  font-weight: 500;
+  width: 250px;
+  background: transparent;
+  border: 3px solid rgb(165, 165, 165);
+  color: rgb(165, 165, 165);
+  transition: 0.1s;
+}
+.btnGroup:hover {
+  background: rgb(255, 255, 255);
+  border: 3px solid rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
 </style>
