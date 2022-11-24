@@ -150,6 +150,8 @@ def create_movie(request):
         serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
+    
+    
 def search_movie(request, keyword):
     print(keyword)
     print(request)

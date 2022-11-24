@@ -1,39 +1,27 @@
 <template>
-  <div>
-    <div style="max-width: 30rem;">
-
-    <form @submit.prevent="createComment" method="POST">
-      <div>
-        <label for="rating-inline">별점 : </label>
-        <b-form-rating id="rating-inline" inline value="value" v-model="rating"></b-form-rating>
-      </div>
-      <b-form-textarea
-        class="textarea"
-        id="content-textarea-no-resize"
-        placeholder="Fixed height textarea"
-        rows="3"
-        v-model="content"
-        no-resize
-      ></b-form-textarea>
-      <b-button variant="secondary" type="submit">입력</b-button>
-    </form>
-    <div
+  <div class='review_list'>
+    <div class="review_item"
     v-for="(review, idx) in review_list"
     :key="`review_${idx}`"
     :review="review"
     >
       <div>
-      <p>작성자: {{ review.user }}</p>
-      <p>
-        <span>리뷰: {{ review.content }}</span> | 
-        <span>작성일: {{ review.created_at }}</span> |
+        {{ review.user }} <span>{{ review.created_at }}</span>
         <span>{{ review.rating }}점</span>
-      </p>
-      {{ review.user}}
-      <p v-if="review.user==user.email"><button @click="deleteReview(review.id)">삭제</button></p>
+        <span>{{ review.content }}</span> |
+        <button v-if="review.user==user.email" @click="deleteReview(review.id)">삭제</button>
       </div>
     </div>
-  </div>
+    <form @submit.prevent="createComment" method="POST">
+      <div>
+        <label for="rating-inline"></label>
+        <b-form-rating id="rating-inline" inline value="value" v-model="rating"></b-form-rating>
+      </div>
+      <div class="textarea">
+        <input class="textarea_input" placeholder="Fixed height textarea" v-model="content" no-resize>
+        <input class="textarea_submit" type="submit" value="입력">
+      </div>
+    </form>
   </div>
 </template>
 
@@ -124,9 +112,7 @@ export default {
     },
     
   }
-  }
-
-
+}
 </script>
 
 <style>
@@ -234,6 +220,49 @@ DEMO
   font-size: 1rem;
   margin: 0;
 } */
+
+.review_list {
+  text-align: left;
+}
+
+.review_list .review_item {
+  padding: 10px 0;
+  font-weight: 300;
+  border-bottom: 1px solid rgb(29, 29, 29);
+  color: rgb(173, 173, 173);
+}
+
+.textarea {
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid rgb(63, 63, 63);
+  display: flex;
+  flex-direction: row;
+}
+
+.textarea_input {
+  background: transparent;
+  color: white;
+  padding: 0 60px 0 20px;
+  width: 100%;
+  border: none;
+}
+.textarea_submit {
+  background: rgb(0, 0, 0);
+  border: 1px solid rgb(63, 63, 63);
+  color: rgb(163, 163, 163);;
+  font-weight: 600;
+  padding: 0 30px;
+  height: 50px;
+  margin: 10px;
+  transition: 0.1s;
+}
+
+.textarea_submit:hover {
+  background: white;
+  border: 1px solid white;
+  color: black;
+}
 
 .page{
   min-height: 100vh;

@@ -11,15 +11,21 @@
           <label for="email">이메일</label>
           <input id="email" class="inputgroup" type="text" disabled="true" v-model="user.email">
         </div>
-        <button id="pfbtn" v-if="!change_profile" @click="ProfileInputToggle">회원정보 수정</button>
-        <input type="submit" v-else value="수정 완료">
+        <div>
+          <label for="profile_image">프로필 사진</label>
+          <input class="inputgroup" type="file" id="profile_image" multiple @change="ImgChange" ref="serveyImage">
+        </div>
+        <input type="submit" v-if="change_profile" value="수정 완료">
+        <button v-if="change_profile" >취소</button>
+        <button v-else @click="ProfileInputToggle">회원정보 수정</button>
       </form>
 
-      <button id="pfbtn" v-if="!change_password" @click="PasswordInputToggle">비밀번호 변경</button>
-      <form @submit.prevent="changePassword">
-        <input id="pw_input" class="inputgroup" type="password" v-model="new_password1">
-        <input id="pw_input" class="inputgroup" type="password" v-model="new_password2">
+      <button v-if="!change_password" @click="PasswordInputToggle">비밀번호 변경</button>
+      <form v-if='change_password' @submit.prevent="changePassword">
+        <input id="pw_input1" class="inputgroup" type="password" v-model="new_password1">
+        <input id="pw_input2" class="inputgroup" type="password" v-model="new_password2">
         <input type="submit" value="비밀번호 변경 제출">
+        <button @click="PasswordInputToggle">취소</button>
       </form>
       <section>
         <h3>내가 쓴 리뷰</h3>
@@ -125,20 +131,24 @@ export default {
       }
     },
     PasswordInputToggle() {
-      const input = document.querySelector('#pw_input')
-      input.classList.toggle('active')
-      input.disabled = false
       if (this.change_password) {
         this.change_password = false
       } else {
         this.change_password = true
       }
     },
+    ImgChange(event) {
+      console.log(event)
+      this.user.profile_image = event.target.files[0];
+    },
     changeProfile() {
+      console.log(`Token ${this.$store.state.token}`)
+      console.log(this.user.profile_image)
       axios({
         method: 'put',
         url: `${this.API_URL}/accounts/user/`,
         headers: {
+          'Content-Type': 'multipart/form-data',
           'Authorization': `Token ${this.$store.state.token}`,
         },
         data: {

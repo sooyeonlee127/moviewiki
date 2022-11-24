@@ -32,7 +32,7 @@
               </tr>
             </table>
           </div>
-          <img src="https://www.pngmart.com/files/21/Actor-PNG-Isolated-File.png" style="width: 300px" alt="">
+          <img src="@/assets/Actor-PNG-Isolated-File.png" style="width: 300px" alt="">
         </slideritem>
         <slideritem>
           <div class="slider_content">
@@ -60,7 +60,7 @@
               </tr>
             </table>
           </div>
-          <img src="https://www.pngall.com/wp-content/uploads/4/Standing-Jason-Statham-PNG.png" style="width: 300px" alt="">
+          <img src="@/assets/Standing-Jason-Statham-PNG.png" style="width: 300px" alt="">
         </slideritem>
         <!-- Customizable loading indicator -->
         <div slot="loading">loading...</div>
